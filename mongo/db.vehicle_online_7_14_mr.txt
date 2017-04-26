@@ -1,0 +1,13 @@
+db.vehicle_online_7_14.mapReduce(
+   function(){
+     var mobile=this._id.mobile;
+     var whichDay=this._id.whichDay;
+     emit(mobile,this);
+   },
+   function(key,value){
+     
+   },
+   {
+     out:'vehicle_on_line_gt_10_everyday'
+   }
+);

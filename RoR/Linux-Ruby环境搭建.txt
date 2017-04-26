@@ -1,0 +1,15 @@
+1.yum update
+2.yum install ruby
+  yum install ruby-devel
+
+  gem sources --remove https://rubygems.org/
+  gem sources -a https://ruby.taobao.org/
+  gem sources -l
+  
+3.gem install sqlite3
+4.gem install rails
+
+ 相关扩展安装：
+ yum install ImageMagick
+ yum install imagemagick 
+ yum install sqlite-devel

@@ -1,0 +1,91 @@
+1.安装
+ubuntu
+http://docs.docker.com/installation/ubuntulinux/
+sudo apt-get update
+sudo apt-get install linux-image-generic-lts-trusty
+
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+Open the /etc/apt/sources.list.d/docker.list file in your favorite editor.
+On Ubuntu Trusty 14.04 (LTS)
+add:
+  deb https://apt.dockerproject.org/repo ubuntu-trusty main
+  
+Purge the old repo if it exists.
+$ apt-get purge lxc-docker
+
+Verify that apt is pulling from the right repository.
+$ apt-cache policy docker-engine
+
+2.build docker image
+mkdir my-image
+cd my-image
+vi Dockerfile
+  example:
+  FROM docker/whalesay:latest
+  RUN apt-get -y update && apt-get install -y fortunes
+  CMD /usr/games/fortune -a | cowsay
+  
+  
+Build:
+  docker build -t docker-whale .
+  
+  
+1.运行docker
+  docker run -t -i centos-env:1.0.1 /bin/bash
+  
+  -t - 分配一个（伪） tty (link is external)
+  -i - 开发输入(so we can interact with it)
+   ubuntu - 使用ubuntu基础镜像
+   /bin/bash - 运行bash shell
+
+  exam:
+    docker run -v /home/core/share:/var/www:rw -p 80:80 -d nginx-example
+	docker run - 启动容器
+    -v /path/to/host/dir:/path/to/container/dir:rw - 指定一个目录共享到容器，并且指定权限为读写，也可以指定为只读
+    -p 80:80 - 绑定端口.
+    -d nginx-example 启动nginx-example的容器，由于在配置文件的CMD中已经指定启动了 nginx ，在容器启动时nginx即启动
+	
+
+exam: docker run -t -i -d -p 9080:80 -p 9022:22 centos-env:1.0.5 /bin/bash
+	
+2.停止运行docker
+  docker stop <container_id>
+  
+3.查看镜像
+  docker images
+4.提交
+  docker commit <container_id> centos-env:1.0.2
+
+5.进入已启动的docker容器
+  1).ssh,要求安装ssh,并做端口转发
+  2).nsenter
+    ubuntu 安装nsenter
+    cd /tmp
+    curl https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz | tar -zxf-cd util-linux-2.24./configure --without-ncursesmake nsentercp nsenter /usr/local/bin
+	
+	为了连接到容器，你还需要找到容器的第一个进程的PID。
+	docker inspect --format "{{ .State.Pid }}" <container-id>
+	通过这个PID，你就可以连接到这个容器：
+	nsenter --target $PID --mount --uts --ipc --net --pid
+
+  3).nsinit
+  apt-get install git golang-go
+  mkdir -p $HOME/go-dev/binmkdir -p $HOME/go-dev/src
+  echo "export GOPATH=\$HOME/go-dev" >> ~/.profileecho "PATH=\$PATH:\$GOPATH/bin" >> ~/.profile
+  source ~/.profile
+  
+  mkdir -p $GOPATH/src/github.com/dotcloudcd $GOPATH/src/github.com/dotcloud
+  git clone https://github.com/dotcloud/docker.git
+  cd $GOPATH/src/github.com/dotcloud/docker
+  /usr/bin/go get -v github.com/dotcloud/docker/vendor/src/github.com/docker/libcontainer/nsinit
+
+  nsinit读取的是位于/var/lib/docer/execdriver/native/<container-id>容器目录下的配置数据。
+  要运行nsinit，你需要切换到容器目录下。由于/var/lib/docker目录对于root用户是只读权限，因此你还需要root权限。
+  通过docker的ps命令，你可以确定容器ID。一旦你进入/var/lib/docker目录，你就可以连接容器了：
+  
+  nsinit exec /bin/bash
+
+
+  
+  

@@ -1,0 +1,161 @@
+RoR Common Commands
+
+rails generate migration add_remember_token_to_users remember_token:string
+
+rails generate migration add_admin_to_users admin:boolean
+
+rails generate model Micropost content:string user_id:integer
+
+--脚手架
+全自动脚手架：rails generate scaffold User name:string email:string
+创建新项目:rails new depot -database=mysql
+检查开发环境:rake db:create RAILS_ENV="development"
+生成数据库、表结构等:rake db:migrate
+
+
+--Controller:
+创建Controller
+rails g controller Say hello
+回滚Controller
+rails d controller Say
+
+--rake
+固化rails版本
+rake rails:freeze:gems
+解固
+rake rails:unfreeze
+重固
+rake rails:refreeze
+使用rails 最新版本
+rake rails:freeze:edge
+
+--环境切换
+rails s -e development
+rails s -e test
+rails s -e production
+
+--
+次数循环
+3.times do
+
+end
+--当前时间
+@time=Time.now
+
+--Object
+to_json,to_yaml,to_xml,blank?
+
+--数据库迁移
+增加字段:rails generate migration add_admin_to_users admin:boolean
+rails generate migration AddUserRefToProducts user:references
+添加引用
+rails generate migration AddAgentRefToUser agent:references
+
+正向迁移:rake db:migrate
+指定版本迁移:rake db:migrate VERSION=TIME
+重做迁移:rake db:migrate:redo STEP=Num  注:退回一个任务并重新实施
+
+--安装MySQL驱动库
+ suod gem install mysql
+
+
+--ActiveRecord
+指定Model使用的自定义表名:set_table_name "table_name"
+
+--查询Exam:
+1).Order.find(:all,:conditions=>["name=? and pay_type='po'",name])
+2).Order.find(:all,:conditions =>["name":name and pay_type=:pay_type",{:pay_type=>pay_type,:name => name}])
+3).Order.find(:all,:conditions=>params[:order])
+Link查询：
+User.find(:all,:conditions=>["name like ?",params[:name]+"%"])
+Join 查询：
+LineItem.find(:all,:condations => "pr.title ='Programming Ruby'",:joins => "as li inner join product as pr on li.product_id =pr.id")
+
+分页查询
+find(:all,order=>"id",:limit=>page_size,:offset =>page_num*page_size)
+投影查询:
+list =Talks.find(:all,:select="title,speaker,recorded_on")
+Group查询:
+summary=LineItem.find(:all,:select=>"sku,sum(amount) as amount",:group=>"sku")
+Fined Just One Record:
+order=Order.find(:first,:conditions=>"name='Dave Thomas'",:order=>"id desc")
+更新部分属性:
+order.update_attributes(:name=>"Barney",:email=>"barney@bedrock.com")
+更新全部记录：
+order.update_all("price=1.1*price","title like '%java%'")
+
+
+--删除记录:
+Order.delete(id)
+Order.delete([id1,id2...])
+Order.delete_all(["price>?",@expensive_price])
+order =Order.find(id)
+order.destroy
+Order.destroy(id)
+Order.destroy([id1,id2...])
+Order.destroy_all(["shipped_at <?",40.days.ago])
+---异常操作相关：
+rescue RecordInvalid =>error
+
+URL操作：
+@link=url_for(:controller=>"store",:action=>"display",:id=>123)
+http://localhost/store/display/123
+具名路由:
+Exam:redirect_to(index_url)
+<%= link_to("Index",index_url) %>
+区别：
+XXX_url:返回全路径URL，如:http://localhost:port/user/index
+XXX_path:只返回URL中的“路径”部分，不包含协议，主要地址和端口
+设置有根路由：
+ 如：http://localhost:port/haipenge/article/input
+    http://localhost:port/ecsun/article/input
+此时需要设置:RAILS_RELATIVE_URL_ROOT
+如果rails 应用运行在apache上，这项特性是自动开启的。
+
+Get ssh-copy-id in Mac OS X
+sudo curl ‘https://raw.github.com/gist/1639381/eea46277ba544fcbd0a0768e8b3f854880ddb772/ssh-copy-id’ -o /usr/bin/ssh-copy-id
+sudo chmod +x /usr/bin/ssh-copy-id
+脚本不支持 ssh指定端口，改了一下:  host=`echo $@ | sed 's/:$//'`
+王福海  13:24:39
+创建分支列表 git branch develop
+查看分支列表 git branch
+切换到分支 git checkout develop
+
+将分支提交到远程库 git push origin develop
+第一次之后，直接git push即可
+合并分支 git merge --no-ff ecsun
+
+删除本地分支 git branch -d ecsun
+删除远程分支 git push origin --delete ecsun
+
+创建里程碑 git tag v1.0.0
+推送里程碑到远程版本库 git push origin master v1.0.0
+
+修改远程仓库地址
+git remote set-url origin phil@git.szework.com:/data/git/shop.git
+
+参考：http://zengrong.net/post/1746.htm
+     http://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8
+     http://www.ruanyifeng.com/blog/2012/07/git.html
+     http://www.ruanyifeng.com/blog/2014/06/git_remote.html
+	 
+git 获取远程分支
+git checkout -b localo_branch_name remote_branch_name 
+exam:
+  git checkout -b develop orign/develop
+
+git pull username@ipaddr:remote_branch_name local_branch_name
+
+
+Simple form:rails下的bootstrap form实现
+https://github.com/plataformatec/simple_form/
+
+
+安装图片上传库:
+安装imagemagick
+$ brew install imagemagick  
+
+
+2015.03.09 平台管理生成代码
+
+

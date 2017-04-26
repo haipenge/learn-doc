@@ -1,0 +1,168 @@
+1.安装
+yum install git
+adduser git
+cd ~
+git init --bare sample.git
+chown -R git:git sample.git
+vi /etc/passwd
+git:x:1001:1001:,,,:/home/git:/bin/bash
+-> git:x:1001:1001:,,,:/home/git:/usr/bin/git-shell
+
+3.查看git 配置
+ git config --list  
+2.本地仓库初始化
+ git init
+ git add --all
+ git commit -m 'message'
+ 
+ 
+ #Ework -->
+ssh-copy-id ecsun@git.szework.com
+git clone ecsun@git.szework.com:/data/git/shop.git
+cd shop
+git checkout develop
+bundle install
+rake db:migrate
+rake db:seed
+rails s
+
+---------------------------------------------- 
+pz
+服务端：
+git init --bare pz.git
+chown -R git:git pz.git
+usermod  -g git liuqing
+usermod  -g git udoo
+usermod  -g git song
+usermod -g git fred
+
+usermod -a -G git song
+-G选项可以修改用户的附属组
+
+如果用户属于不同用户组，在多个用户组下切换用户：
+$newgrp root
+
+让其它用户使用
+ssh-keygen -t rsa
+cat ~/.ssh/id_rsa.pub >> /home/git/.ssh/authorized_keys
+
+
+Client:
+拷贝公钥
+准备工作:
+
+---基于git 的每日构建工作流程
+1.git pull
+2.解决本地冲突
+3.git add --all 或 指定提交的文件
+4.git commit -m '此处写提交日志'
+5.git push
+6.完成
+
+
+1.本地安装mongo,请致官网下载合适版本
+2.启动 ./mongon*/bin/mongod
+
+udoo 
+ssh-copy-id git@222.171.225.170
+git clone udoo@222.171.225.170:/home/data/git/pz.git
+cd pz
+git checkout develop
+
+本地数据库脚本：
+/pz/pz-platform-security/pz-platform-security-manager/src/main/resources/db/init.sql
+本地数据库链接:
+/pz/pz-platform-security/pz-platform-security-manager/src/main/resources/filter/dev.properties
+
+本地构建、启动：
+./run.sh
+注：
+1.禁止在master分支进行开发.
+1.只能在develop分支进行开发
+2.本地代码不合并到master，只提交develop
+
+
+liuqing
+git clone liuqing@222.171.225.170:/home/data/git/pz.git
+cd pz
+git checkout develop
+
+本地数据库脚本：
+/pz/pz-platform-security/pz-platform-security-manager/src/main/resources/db/init.sql
+本地数据库链接:
+/pz/pz-platform-security/pz-platform-security-manager/src/main/resources/filter/dev.properties
+
+本地构建、启动：
+./run.sh
+注：
+1.禁止在master分支进行开发.
+1.只能在develop分支进行开发
+2.本地代码不合并到master，只提交develop
+
+
+git remote set-url origin song@222.171.225.170:/home/data/git/pz.git
+
+git remote set-url origin dev@clwy.f3322.net:60023/data/source/x-smart/x-smart.git
+git remote set-url origin dev@clwy.f3322.net:60023/data/source/x-smart/x-smart-h5.git
+
+
+非默认端口下的clone任务:
+git clone ssh://dev@clwy000.imwork.net:60023/data/source/x-smart/x-smart.git
+git clone ssh://caomingyu@clwy000.imwork.net:60023/data/source/x-smart/x-smart-h5.git
+
+liuqing@222.171.225.170
+password:liuqing123
+
+--------------------------------------------------------------------------
+将本地项目提交到git
+git remote add origin song@222.171.225.170:/home/data/git/pz.git
+git remote add origin haipeng@112.74.97.50:/data/git/xbuy.git
+
+
+git remote add origin git@222.171.225.170:/home/git/pz.git
+git push origin master
+ 
+创建分支列表 git branch develop
+查看分支列表 git branch
+切换到分支 git checkout develop
+从Tag创建新分支:git checkout -b branch_name tag_name
+
+将分支提交到远程库 git push origin develop
+第一次之后，直接git push即可
+合并分支 git merge --no-ff ecsun
+
+删除本地分支 git branch -d ecsun
+删除远程分支 git push origin --delete ecsun
+
+创建里程碑 git tag v1.0.0
+推送里程碑到远程版本库 git push origin master v1.0.0
+
+修改远程仓库地址
+git remote set-url origin phil@git.szework.com:/data/git/shop.git
+--------
+--恢复一个文件到指定版本
+1.git log -g  //查看提交版本，查找checkid
+2.git checkout checkId fiel_name_with_path
+
+1. 通过git log -g命令来找到我们需要恢复的信息对应的commit_id，可以通过提交的时间和日期来辨别。一个好的办法是运行：1、git log --since="2 weeks ago" -- myfile 可以2个星期期间的myfile历史；２、git log --branches="develop" 可以查看develop的commit
+
+2. 通过git branch recover_branch[新分支] commit_id 来建立一个新的分支
+这样，我们就把丢失的东西给恢复到了recover_branch分支上了。
+
+Q:如果是不小心执行了git reset，还有办法取消吗？
+A:git reflog 查看操作历史，找到之前 HEAD 的 hash 值，然后 git reset --hard 到那个 hash 即可。
+
+Q:怎样找回历史版本中删除的文件？
+A:先确定需要恢复的文件要恢复成哪一个历史版本(commit)，假设那个版本号是： commit_id，那么
+git checkout [commit_id] -- <path_to_file>就可以恢复。
+
+
+---Git 常见问题
+1.insufficient permission for adding an object to repository database
+  解决  : chmod g+w -R *
+  cd /path/to/repo.git
+  chgrp -R groupname .
+  chmod -R g+rwX .
+  find . -type d -exec chmod g+s '{}' +
+
+ --Github初始化项目步骤：

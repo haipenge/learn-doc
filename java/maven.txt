@@ -1,0 +1,19 @@
+1.安装一个jar包:
+mvn install:install-file -Dfile=/app/tools/ik-analyzer-1.0.jar -DgroupId=org.wltea -DartifactId=ik-analyzer -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true clean package install
+
+安装 Baidu UEditor
+mvn install:install-file -Dfile=/work/Work/open/ueditor1_4_3-src/jsp/dist/ueditor-1.1.1.jar -DgroupId=com.baidu -DartifactId=ueditor -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=/home/dev/json.jar -DgroupId=com.baidu -DartifactId=editor-json -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=/home/song/ueditor-1.1.1.jar -DgroupId=com.baidu -DartifactId=ueditor -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true
+
+------------------------------------------------------------
+mvn install:install-file -Dfile=/work/Work/open/ueditor1_4_3-utf8-jsp/jsp/lib/json.jar -DgroupId=com.baidu -DartifactId=ueditor-json -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=/home/dev/json.jar -DgroupId=com.baidu -DartifactId=ueditor-json -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
+
+
+mvn install:install-file -Dfile=/home/dev/json.jar -DgroupId=com.baidu -DartifactId=editor-json -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=/home/song/ueditor-1.1.1.jar -DgroupId=com.baidu -DartifactId=ueditor -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true

@@ -1,0 +1,30 @@
+Ruby on rails Common commands:
+
+升级gem
+gem update --system
+
+Display a list of gemsets:
+rvm gemset list
+
+----
+See what gems are installed in the “global” gemset:
+
+$ rvm gemset use global
+$ gem list
+
+--
+
+To save time, install the Nokogiri gem in the RVM global gemset:
+
+$ gem install nokogiri
+
+---
+
+Your Gemfile specifies the Rails version used by your application. If you have a Rails 4.1.8 application:
+
+source 'https://rubygems.org'
+gem 'rails', '4.1.8'
+Then run:
+
+$ bundle update rails
+

@@ -1,0 +1,361 @@
+nginx可以使用各平台的默认包来安装，本文是介绍使用源码编译安装，包括具体的编译参数信息。
+
+正式开始前，编译环境gcc g++ 开发库之类的需要提前装好，这里默认你已经装好。
+
+ububtu平台编译环境可以使用以下指令
+
+apt-get install build-essential
+apt-get install libtool
+centos平台编译环境使用如下指令
+
+安装make：
+
+yum -y install gcc automake autoconf libtool make
+安装g++:
+
+yum install gcc gcc-c++
+下面正式开始
+---------------------------------------------------------------------------
+一般我们都需要先装pcre, zlib，前者为了重写rewrite，后者为了gzip压缩。
+1.选定源码目录
+可以是任何目录，本文选定的是/usr/local/src
+
+cd /usr/local/src
+2.安装PCRE库
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/ 下载最新的 PCRE 源码包，使用下面命令下载编译和安装 PCRE 包：
+
+cd /usr/local/src
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz 
+tar -zxvf pcre-8.34.tar.gz
+cd pcre-8.34
+./configure
+make
+make install
+3.安装zlib库
+http://zlib.net/zlib-1.2.8.tar.gz 下载最新的 zlib 源码包，使用下面命令下载编译和安装 zlib包：
+
+cd /usr/local/src
+
+wget http://zlib.net/zlib-1.2.8.tar.gz
+tar -zxvf zlib-1.2.8.tar.gz
+cd zlib-1.2.8
+./configure
+make
+make install
+4.安装ssl（某些vps默认没装ssl)
+
+cd /usr/local/src
+wget http://www.openssl.org/source/openssl-1.0.1c.tar.gz
+tar -zxvf openssl-1.0.1c.tar.gz
+5.安装nginx
+
+Nginx 一般有两个版本，分别是稳定版和开发版，您可以根据您的目的来选择这两个版本的其中一个，下面是把 Nginx 安装到 /usr/local/nginx 目录下的详细步骤：
+
+cd /usr/local/src
+wget http://nginx.org/download/nginx-1.4.2.tar.gz
+tar -zxvf nginx-1.4.2.tar.gz
+cd nginx-1.4.2
+
+./configure --sbin-path=/tools/nginx/nginx \
+--prefix=/tools/nginx/nginx \
+--conf-path=/tools/nginx/nginx/conf/nginx.conf \
+--pid-path=/tools/nginx/nginx/nginx.pid \
+--with-http_ssl_module \
+--with-pcre=/tools/nginx/pcre/pcre-8.35 \
+--with-zlib=/tools/nginx/zlib/zlib-1.2.8 \
+--with-openssl=/tools/nginx/openssl/openssl-1.0.2
+
+
+./configure --sbin-path=/data/tools/nginx/nginx \
+--prefix=/data/tools/nginx/nginx \
+--conf-path=/data/tools/nginx/nginx/conf/nginx.conf \
+--pid-path=/data/tools/nginx/nginx/nginx.pid \
+--with-http_ssl_module \
+--with-pcre=/data/tools/nginx/pcre/pcre-8.36 \
+--with-zlib=/data/tools/nginx/zlib/zlib-1.2.8 \
+--with-openssl=/data/tools/nginx/openssl/openssl-0.9.8zg
+
+
+
+
+./configure --prefix=/tools/nginx/nginx \
+--with-http_ssl_module \
+--with-pcre=/tools/nginx/pcre/pcre-8.35 \
+--with-zlib=/tools/nginx/zlib/zlib-1.2.8 \
+--user=apple \
+--group=wheel
+
+
+#For Xbuy
+./configure --prefix=/app/nginx/nginx \
+--with-http_ssl_module \
+--with-pcre=/usr/local/src/pcre-8.36 \
+--with-zlib=/usr/local/src/zlib-1.2.8 \
+--with-openssl=/usr/local/src/openssl-1.0.2a \
+--user=resin \
+--group=resin
+
+
+make
+make install
+--with-pcre=/usr/src/pcre-8.34 指的是pcre-8.34 的源码路径。
+--with-zlib=/usr/src/zlib-1.2.7 指的是zlib-1.2.7 的源码路径。
+--user=www --group=www 指定运行nginx的用户和用户组
+
+安装成功后 /usr/local/nginx 目录下如下
+
+fastcgi.conf            koi-win             nginx.conf.default
+fastcgi.conf.default    logs                scgi_params
+fastcgi_params          mime.types          scgi_params.default
+fastcgi_params.default  mime.types.default  uwsgi_params
+html                    nginx               uwsgi_params.default
+koi-utf                 nginx.conf          win-utf
+6.启动
+确保系统的 80 端口没被其他程序占用，运行/usr/local/nginx/nginx 命令来启动 Nginx，
+
+netstat -ano|grep 80
+如果查不到结果后执行，有结果则忽略此步骤（ubuntu下必须用sudo启动，不然只能在前台运行）
+
+sudo /usr/local/nginx/nginx
+
+6.启动
+确保系统的 80 端口没被其他程序占用，
+/usr/local/nginx/sbin/nginx
+ 
+检查是否启动成功：
+netstat -ano|grep 80 有结果输入说明启动成功
+ 
+ 
+打开浏览器访问此机器的 IP，如果浏览器出现 Welcome to nginx! 则表示 Nginx 已经安装并运行成功。
+ 
+7.重启
+/usr/local/nginx/sbin/nginx –s reload
+ 
+8.修改配置文件
+cd /usr/local/nginx/conf
+vi nginx.conf
+ 
+9.常用配置
+#nginx运行用户和组
+user    www www;  
+#启动进程,通常设置成和cpu的数量相等
+worker_processes  4;
+ 
+#全局错误日志及PID文件
+pid /var/run/nginx.pid;
+error_log  /var/log/nginx/error.log;
+ 
+events {
+        #epoll是多路复用IO(I/O Multiplexing)中的一种方式,但是仅用于linux2.6以上内核,可以大大提高nginx的性能
+use epoll;
+                   #单个后台worker process进程的最大并发链接数
+        worker_connections  10240;
+}
+#设定http服务器，利用它的反向代理功能提供负载均衡支持
+http {
+        include       mime.types;
+ 
+        default_type  application/octet-stream;
+ 
+         error_page 400 403 500 502 503 504  /50x.html;
+ 
+        index index.html index.shtml
+ 
+        autoindex off;
+ 
+         fastcgi_intercept_errors on;
+ 
+        sendfile        on;
+ 
+        # These are good default values.
+        tcp_nopush      on;
+        tcp_nodelay     off;
+ 
+        # output compression saves bandwidth
+        gzip  off;
+         #gzip_static on;
+        #gzip_min_length  1k;
+        gzip_http_version 1.0;
+        gzip_comp_level 2;
+        gzip_buffers  4 16k;
+        gzip_proxied any;
+        gzip_disable "MSIE [1-6]\.";
+        gzip_types  text/plain text/html text/css application/x-javascript application/xml application/xml+rss text/javascript;
+        #gzip_vary on;
+ 
+        server_name_in_redirect off;
+ 
+#设定负载均衡的服务器列表
+        upstream portals {
+                  server 172.16.68.134:8082 max_fails=2 fail_timeout=30s;
+                  server 172.16.68.135:8082 max_fails=2 fail_timeout=30s;
+                  server 172.16.68.136:8082 max_fails=2 fail_timeout=30s;
+                  server 172.16.68.137:8082 max_fails=2 fail_timeout=30s;
+        }
+ 
+        #upstream overflow {
+         #       server 10.248.6.34:8090 max_fails=2 fail_timeout=30s;       
+         #       server 10.248.6.45:8080 max_fails=2 fail_timeout=30s;       
+        #}
+ 
+        server {
+                                     #侦听8080端口
+                listen       8080;
+                server_name  127.0.0.1;
+ 
+                   #403、404页面重定向地址
+                   error_page  403 = http://www.e100.cn/ebiz/other/217/403.html;
+                   error_page  404 = http://www.e100.cn/ebiz/other/218/404.html;
+                   proxy_connect_timeout      90;
+                   proxy_send_timeout         180;
+                   proxy_read_timeout         180;
+ 
+                   proxy_buffer_size 64k;
+                   proxy_buffers 4 128k;
+                   proxy_busy_buffers_size 128k;
+ 
+ 
+                   client_header_buffer_size 16k;
+                   large_client_header_buffers 4 64k;
+ 
+                #proxy_send_timeout         3m;
+                #proxy_read_timeout         3m;
+                #proxy_buffer_size          4k;
+                #proxy_buffers              4 32k;
+ 
+                proxy_set_header Host $http_host;
+                proxy_max_temp_file_size 0;
+                #proxy_hide_header Set-Cookie;
+                  
+         #       if ($host != 'www.e100.cn' ) {
+         #                rewrite ^/(.*)$ http://www.e100.cn/$1 permanent;
+         #       }
+ 
+ 
+               location / {
+                       deny all;
+               }
+ 
+                   location ~ ^/resource/res/img/blue/space.gif {
+                    proxy_pass http://tecopera;
+               }
+ 
+               location = / {
+                   rewrite ^(.*)$  /ebiz/event/517.html last;
+               }
+ 
+ 
+ 
+                   location = /ebiz/event/517.html {
+                    add_header Vary Accept-Encoding;
+                    root /data/web/html;
+                    expires 10m;
+               }
+ 
+ 
+ 
+ 
+               location = /check.html {
+                    root /usr/local/nginx/html/;
+                    access_log off;
+               }
+ 
+               location = /50x.html {
+                    root /usr/local/nginx/html/;
+                    expires 1m;
+                    access_log off;
+               }
+ 
+ 
+              location = /index.html {
+                       add_header Vary Accept-Encoding;
+#定义服务器的默认网站根目录位置
+                    root /data/web/html/ebiz;
+                    expires 10m;
+               }
+#定义反向代理访问名称
+                   location ~ ^/ecps-portal/* {
+                   # expires 10m;
+#重定向集群名称
+                    proxy_pass http://portals;
+                    #proxy_pass http://172.16.68.134:8082;
+               }
+ 
+                   location ~ ^/fetionLogin/* {
+                   # expires 10m;
+                    proxy_pass http://portals;
+                    #proxy_pass http://172.16.68.134:8082;
+                }
+ 
+                   #location  ~ ^/business/* {                                                                      
+                #   # expires 10m;                                                                                
+                #    proxy_pass http://172.16.68.132:8088;                                                                   
+                #    #proxy_pass http://172.16.68.134:8082;                                                       
+                #}
+ 
+                   location ~ ^/rsmanager/* {
+                    expires 10m;
+                    root /data/web/;
+                    #proxy_pass http://rsm;
+               }
+#定义nginx处理的页面后缀
+                   location ~* (.*)\.(jpg|gif|htm|html|png|js|css)$  {
+                            root /data/web/html/;
+#页面缓存时间为10分钟
+                         expires 10m;
+                   }
+ 
+#设定查看Nginx状态的地址     
+               location ~* ^/NginxStatus/ {
+                    stub_status on;
+                    access_log off;
+                    allow 10.1.252.126;
+                    allow 10.248.6.49;
+                    allow 127.0.0.1;
+                    deny all;
+               }
+         #       error_page   405 =200 @405;
+         #       location @405
+         #       {
+         #                proxy_pass http://10.248.6.45:8080;
+         #       }  
+ 
+               access_log  /data/logs/nginx/access.log combined;
+               error_log   /data/logs/nginx/error.log;
+        }
+         server {
+                listen       8082;
+ 
+                server_name  _;
+               location = /check.html {
+                    root /usr/local/nginx/html/;
+                    access_log off;
+               }
+                  
+        }
+         server {
+                   listen       8088;
+                   server_name  _;
+                   location ~ ^/* {
+                   root /data/web/b2bhtml/;
+                   access_log off;
+         }                
+         }
+        server {
+                listen       9082;
+                server_name  _;
+ 
+        #        location ~ ^/resource/* {
+        #            expires 10m;
+         #           root /data/web/html/;
+         #       }
+ 
+                location  / {
+                     root /data/web/html/sysMaintain/;
+                       if (!-f $request_filename) {
+                            rewrite ^/(.*)$ /sysMaintain.html last;
+                           }
+                }
+        }
+ 
+}

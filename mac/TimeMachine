@@ -1,0 +1,3 @@
+TM每一小时（3600秒）备份一次，你可以自己将3600更改一下，用下列终端命令：
+
+sudo defaults write /System/Library/LaunchDaemons/com.apple.backupd-auto StartInterval -int 3600

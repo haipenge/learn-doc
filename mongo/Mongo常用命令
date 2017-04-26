@@ -1,0 +1,106 @@
+Mongo常用命令：
+
+创建数据库:use abc
+删除数据库:
+  use abd
+  db.dropDatabase()
+删除集合:
+  db.collection_name.drop();
+
+
+1.在排序字段上，需加入以下索引：
+
+db.search_article.ensureIndex({clickCount:1},{OFFSET:-1});
+db.spider_parse_result.ensureIndex({name:1})
+添加GEO索引
+db.c.ensureIndex({Location:’2d’});
+
+
+停止Mongo数据库：
+1.use admin
+2.
+  1).停止单台mongo
+    db.shutdownServer()
+  2).停止主从:master ad all slave(s)
+    db.adminCommand({shutdown:1,force:true})
+
+修复:
+use search
+db.repairDatabase();
+下面命令操作前需先停止mongo
+./mongod --repair --repairpath=/tools/mongodb/data/db/ --dbpath=/tools/mongodb/data/db
+
+为gis_address添加索引
+db.c.ensureIndex({‘hashCode’:1});
+
+批量更新
+
+db.c.update({},{$set:{Level:0}},{multi:true});
+
+db.spider_link.update({isDistributed:true,isCrawled:false},{$set:{isDistributed:false}},{multi:true});
+
+db.spider_parse_result.update({},{$set:{level:0}},{multi:true})
+db.spider_parse_result.update({},{$set:{isAllow:false}},{multi:true})
+db.search_article.update({},{$set:{isIndexed:true}},{multi:true})
+db.spider_parse_result.update({createDate:{$gt:new Date('2015/01/01 11:03:37')}},{$set:{isPush2Mongo:false}},{multi:true})
+
+db.spider_crawl_result.remove({crawlDate:{$gt:new Date('2015/03/01 11:03:37')}})
+db.spider_parse_result.remove({createDate:{$gt:new Date('2015/03/01 11:03:37')}})
+
+db.spider_link.find({url:/\d{4}\/\d{2}\/\d{2}\.html/}).pretty();
+db.spider_link.remove({url:/\/c$/,isCrawled:false});
+ 
+db.spider_link.remove({mimeType:1});
+db.spider_link.update({},{$set:{isCrawled:false,isCrawlSuccess:false,mimeType:0}},{multi:true});
+
+
+
+#使用正则表达 式更新
+db.search_article.update({description:/<[^>].*?>/},{$set:{description:''}},{multi:true});
+
+db.search_article.update({},{$set:{isIndexed:false}},{multi:true});
+db.spilder_link.remove({url:/.*?register.*/},{multi:true})
+
+db.search_article.find({sourceUrl:/.*?segmentfault.com.*/}).count();
+db.spider_parse_result.remove({sourceUrl:/.*?segmentfault.com.*/},{multi:true})
+
+导入导出库：
+导出：
+./bin/mongodump -h localhost -d search -o /tmp/
+恢复：
+./bin/mongorestore -h localhost -d search  /tmp/d
+
+如果遇到大集合导入，EOF异常，使用以下导入语句：
+./bin/mongorestore -h localhost -d search --batchSize=100  /tmp/d 
+
+导入导出表:
+导出：
+./mongoexport -d search -c search_article -o /data/bak/mongo/search_article_20140930.bak
+
+导入
+./mongoimport -d search -c search_article /data/bak/mongo/search_article_20140930.bak
+
+---
+清理mongodb 日志
+use admin
+db.runCommand( { logRotate : 1 } )
+PRIMARY> db.runCommand( { logRotate : 1 } );
+{ "ok" : 1 }
+
+====================
+配置Mongo Iptables:
+查看iptables 配置
+iptables -L
+
+iptables -A INPUT -s 127.0.0.1 -p tcp --destination-port 27017 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -d 127.0.0.1 -p tcp --source-port 27017 -m state --state ESTABLISHED -j ACCEPT
+#保存iptables配置
+service iptables save
+#刷新iptables配置
+iptables -F
+iptables -F        清除预设表filter中的所有规则链的规则
+iptables -X        清除预设表filter中使用者自定链中的规则
+#官方参考文档
+http://docs.mongodb.org/manual/tutorial/configure-linux-iptables-firewall/
+
+

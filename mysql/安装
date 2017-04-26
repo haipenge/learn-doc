@@ -1,0 +1,7 @@
+安装mysql
+
+yum install mysql
+yum install mysql-devel
+yum install mysql-embedded
+yum install mysql-embedded-devel
+yum install mysql-server

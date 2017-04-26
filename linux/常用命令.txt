@@ -1,0 +1,20 @@
+常用命令：
+
+删除5分钟之前的文件：
+find /tmp/axis2-*.tmp -cmin +2 -name "*.*" -exec rm -Rf {} \;
+删除三天前的日志
+find /home -type f -mtime +3 -exec rm -Rf {} \;
+
+下载https类链接的文件:
+
+curl -O -L "https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.6.tgz?_ga=1.172702051.1791805007.1418889374"
+
+意思就是搜尋在/Users/justfly/Documents/workspace/justSVN/中所有的「.svn」並用rm刪除
+sudo find  -name ".svn" -exec rm -r {} \;
+
+ssh-keygen -t  rsa
+ssh-copy-id -i ~/.ssh/id_rsa.pub  git@222.171.225.170
+ssh-copy-id -i ~/.ssh/id_rsa.pub  dev@120.27.51.168
+
+*创建定时任务:
+1.查看该用户下的crontab服务是否创建成功， 用 crontab  -l 命令 

@@ -1,0 +1,222 @@
+常用Mongo操作
+
+MapReduce:
+
+{
+    group: {
+        ns: 'veUploadGpsMG',
+        key: {
+            userId: 1,
+            mobile: 1
+        },
+        cond: {
+            userId:120,
+            uptime: {
+                $gte: 1411970522593,
+                      
+                $lte: 1411973270389
+            }
+        },
+        $reduce: function(curr,result){
+            result.total+=1;if(result.maxUptime===0){
+                result.maxUptime=curr.uptime;
+            }else{
+                if(result.maxUptime<curr.uptime){
+                    result.maxUptime=curr.uptime;
+                }
+            }if(result.minUptime===0){
+                result.minUptime=curr.uptime;
+            }else{
+                if(result.minUptime>curr.uptime){
+                    result.minUptime=curr.uptime;
+                }
+            }
+        },
+        initial: {
+            total: 0,
+            maxUptime: 0,
+            minUptime: 0
+        }
+    }
+}
+
+
+
+
+
+{
+    group: {
+        ns: 'veUploadGpsMG',
+        key: {
+            userId: 1,
+            mobile: 1
+        },
+        cond: {
+            uptime: {
+                $gte: 1412456461000,
+                $lte: 1412456461000+7*24*60*60*1000
+            }
+        },
+        $reduce: function(curr, result) {
+
+	if (curr.uptime >= 1412456461000 && curr.uptime <= 1412456461000 + 17 * 60 * 60 * 1000) {
+		if (result.maxUptime === 0) {
+			result.maxUptime = curr.uptime;
+		} else {
+			if (result.maxUptime < curr.uptime) {
+				result.maxUptime = curr.uptime;
+			}
+		}
+		if (result.minUptime === 0) {
+			result.minUptime = curr.uptime;
+		} else {
+			if (result.minUptime > curr.uptime) {
+				result.minUptime = curr.uptime;
+			}
+		}
+		if (result.maxUptime - result.minUptime >= 14 * 60 * 60 * 1000) {
+			result.total  =result.total+1;
+		}
+		
+	} else if (curr.uptime >= 1412456461000 + 24 * 60 * 60 * 1000
+			&& curr.uptime <= 1412456461000 + 17 * 60 * 60 * 1000 + 24 * 60 * 60 * 1000) {
+		if (result.maxUptime2 === 0) {
+			result.maxUptime2 = curr.uptime;
+		} else {
+			if (result.maxUptime2 < curr.uptime) {
+				result.maxUptime2 = curr.uptime;
+			}
+		}
+		if (result.minUptime2 === 0) {
+			result.minUptime2 = curr.uptime;
+		} else {
+			if (result.minUptime2 > curr.uptime) {
+				result.minUptime2 = curr.uptime;
+			}
+		}
+		if (result.maxUptime2 - result.minUptime2 >= 14 * 60 * 60 * 1000) {
+			result.total  =result.total+1;
+		}
+		
+	} else if (curr.uptime >= 1412456461000 + 2 * 24 * 60 * 60 * 1000
+			&& curr.uptime <= 1412456461000 + 17 * 60 * 60 * 1000 + 2 * 24 * 60 * 60 * 1000) {
+		if (result.maxUptime3 === 0) {
+			result.maxUptime3 = curr.uptime;
+		} else {
+			if (result.maxUptime3 < curr.uptime) {
+				result.maxUptime3 = curr.uptime;
+			}
+		}
+		if (result.minUptime3 === 0) {
+			result.minUptime3 = curr.uptime;
+		} else {
+			if (result.minUptime3 > curr.uptime) {
+				result.minUptime3 = curr.uptime;
+			}
+		}
+		if (result.maxUptime3 - result.minUptime3 >= 14 * 60 * 60 * 1000) {
+			result.total  =result.total+1;
+		}
+		
+	} else if (curr.uptime >= 1412456461000 + 3 * 24 * 60 * 60 * 1000
+			&& curr.uptime <= 1412456461000 + 17 * 60 * 60 * 1000 + 3 * 24 * 60 * 60 * 1000) {
+		if (result.maxUptime4 === 0) {
+			result.maxUptime4 = curr.uptime;
+		} else {
+			if (result.maxUptime4 < curr.uptime) {
+				result.maxUptime4 = curr.uptime;
+			}
+		}
+		if (result.minUptime4 === 0) {
+			result.minUptime4 = curr.uptime;
+		} else {
+			if (result.minUptime4 > curr.uptime) {
+				result.minUptime4 = curr.uptime;
+			}
+		}
+		if (result.maxUptime4 - result.minUptime4 >= 14 * 60 * 60 * 1000) {
+			result.total  =result.total+1;
+		}
+		
+	} else if (curr.uptime >= 1412456461000 + 4 * 24 * 60 * 60 * 1000
+			&& curr.uptime <= 1412456461000 + 17 * 60 * 60 * 1000 + 4 * 24 * 60 * 60 * 1000) {
+		if (result.maxUptime5 === 0) {
+			result.maxUptime5 = curr.uptime;
+		} else {
+			if (result.maxUptime5 < curr.uptime) {
+				result.maxUptime5 = curr.uptime;
+			}
+		}
+		if (result.minUptime5 === 0) {
+			result.minUptime5 = curr.uptime;
+		} else {
+			if (result.minUptime5 > curr.uptime) {
+				result.minUptime5 = curr.uptime;
+			}
+		}
+		if (result.maxUptime5 - result.minUptime5 >= 14 * 60 * 60 * 1000) {
+			result.total  =result.total+1;
+		}
+		
+	} else if (curr.uptime >= 1412456461000 + 5 * 24 * 60 * 60 * 1000
+			&& curr.uptime <= 1412456461000 + 17 * 60 * 60 * 1000 + 5 * 24 * 60 * 60 * 1000) {
+		if (result.maxUptime6 === 0) {
+			result.maxUptime6 = curr.uptime;
+		} else {
+			if (result.maxUptime6 < curr.uptime) {
+				result.maxUptime6 = curr.uptime;
+			}
+		}
+		if (result.minUptime6 === 0) {
+			result.minUptime6 = curr.uptime;
+		} else {
+			if (result.minUptime6 > curr.uptime) {
+				result.minUptime6 = curr.uptime;
+			}
+		}
+		if (result.maxUptime6 - result.minUptime6 >= 14 * 60 * 60 * 1000) {
+			result.total  =result.total+1;
+		}
+		
+	} else if (curr.uptime >= 1412456461000 + 6 * 24 * 60 * 60 * 1000
+			&& curr.uptime <= 1412456461000 + 17 * 60 * 60 * 1000 + 6 * 24 * 60 * 60 * 1000) {
+		if (result.maxUptime7 === 0) {
+			result.maxUptime7 = curr.uptime;
+		} else {
+			if (result.maxUptime7 < curr.uptime) {
+				result.maxUptime7 = curr.uptime;
+			}
+		}
+		if (result.minUptime7 === 0) {
+			result.minUptime7 = curr.uptime;
+		} else {
+			if (result.minUptime7 > curr.uptime) {
+				result.minUptime7 = curr.uptime;
+			}
+		}
+		if (result.maxUptime7 - result.minUptime >= 14 * 60 * 60 * 1000) {
+			result.total  = result.total+1;
+		}
+	}
+
+},
+        initial: {
+            total: 0,
+            maxUptime: 0,
+            minUptime: 0,
+            maxUptime2: 0,
+            minUptime2: 0,
+            maxUptime3: 0,
+            minUptime3: 0,
+            maxUptime4: 0,
+            minUptime4: 0,
+            maxUptime5: 0,
+            minUptime5: 0,
+            maxUptime6: 0,
+            minUptime6: 0,
+            maxUptime7: 0,
+            minUptime7: 0,
+            isFull:'N'
+        }
+    }
+}

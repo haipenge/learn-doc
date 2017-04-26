@@ -1,0 +1,18 @@
+一。查看内核版本命令：
+
+1） [root@SOR_SYS ~]# cat /proc/version
+2）[root@SOR_SYS ~]# uname -r
+3）[root@SOR_SYS ~]# uname -a
+
+二。查看linux版本：
+
+1) 登录到服务器执行 lsb_release -a ,即可列出所有版本信息,例如:
+
+[root@SOR_SYS ~]# lsb_release -a
+2) 登录到linux执行cat /etc/issue,例如如下:
+
+[root@SOR_SYS ~]# cat /etc/issue
+3) 登录到linux执行cat /etc/redhat-release ,例如如下:
+
+[root@SOR_SYS ~]# cat /etc/redhat-release
+4)登录到linux执行rpm -q redhat-release ,例如如下:

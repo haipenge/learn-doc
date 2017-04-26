@@ -1,0 +1,10 @@
+ 1.打包：
+ npm install
+ grunt --encode=gbk --server=asp
+ 
+ 2.源码修改：
+ BinaryUploader.java  80-84行
+ Base64Uploader.java  37 -40
+ FileManager.java  77-79 ,22,30
+ 以上修改解决问题:
+ 相对路径上传中将"../../../"带到图片插入中

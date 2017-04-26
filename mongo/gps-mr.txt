@@ -1,0 +1,56 @@
+db.veUploadGpsMG.mapReduce(
+  function(){
+      var uptime=new Date(this.uptime);
+      var day=uptime.getFullYear()+"-"+(uptime.getMonth()+1)+"-"+uptime.getDate();
+      var key={
+         mobile:this.mobile,
+         whichDay:day
+      };
+      var value={
+       uptime:this.uptime
+      };
+      emit(key,value);
+    },
+  function(key,values){
+     var res={
+       //startUptime:0,
+       //endUptime:0,
+       totalOnlineHour:0
+     };
+     var maxUptime=0;
+     var minUptime=0;
+     var totalOnlineMillSeconds=0;
+     for(var i=0;i<values.length;i++){
+        var value=values[i];
+       if(maxUptime==0 && value.uptime){
+         maxUptime=value.uptime;
+       }
+       if(minUptime==0  && value.uptime){
+         minUptime=value.uptime;
+       }
+       if(value.uptime>maxUptime){
+          maxUptime=value.uptime;
+       }
+       if(value.uptime<minUptime){
+          minUptime=value.uptime;
+       }
+     }
+     totalOnlineMillSeconds=maxUptime-minUptime;
+     //res.startUptime=minUptime;
+     //res.endUptime=maxUptime;
+     res.totalOnlineHour=totalOnlineMillSeconds/(1000*60*60);
+     return res;
+  },
+  {
+    query:{
+       uptime: {
+                $gte: Date.UTC(2014,9,5,0,0,0),
+                $lte: Date.UTC(2014,9,12,23,59,59)
+            }
+    },
+    out:'vehicle_online_7_14',
+    finalize:function(key,value){
+      return value;
+    }
+  }
+);
