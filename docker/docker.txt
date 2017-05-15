@@ -14,6 +14,10 @@ add:
 Purge the old repo if it exists.
 $ apt-get purge lxc-docker
 
+升级Docker 
+CentOS: yum -y update docker-io
+Ubuntu: apt-get update lxc-docker
+
 Verify that apt is pulling from the right repository.
 $ apt-cache policy docker-engine
 
