@@ -1,0 +1,219 @@
+#Gitlab
+
+
+
+
+sudo vim /etc/gitlab/gitlab.rb
+
+ 
+
+将external_url = 'http://git.example.com'修改为http://gitlab.wb.com:8081
+
+ 
+
+sudo gitlab-ctl reconfigure
+
+ 
+
+直接在浏览器访问刚才修改的自己的ip或者域名，就能看到gitlab的页面了，登陆用下面的用户名和密码。
+
+Username: root
+
+Password: 5iveL!fe
+
+登陆后会要求你更改密码的。
+
+配置smtp
+改为wenbindevops
+
+ 
+
+$ sudo vi /etc/gitlab/gitlab.rb                           
+
+# Change the external_url to the address your users will type in their browser
+
+external_url 'http://xxhost.com'
+
+ 
+
+#Sending application email via SMTP
+
+gitlab_rails['smtp_enable'] = true
+
+gitlab_rails['smtp_address'] = "smtp.163.com"
+
+gitlab_rails['smtp_port'] = 25
+
+gitlab_rails['smtp_user_name'] = "xxuser@163.com"
+
+gitlab_rails['smtp_password'] = "xxpassword"
+
+gitlab_rails['smtp_domain'] = "163.com"
+
+gitlab_rails['smtp_authentication'] = :login
+
+gitlab_rails['smtp_enable_starttls_auto'] = true
+
+ 
+
+##修改gitlab配置的发信人
+
+gitlab_rails['gitlab_email_from'] = "xxuser@163.com"
+
+user["git_user_email"] = xxuser@163.com
+
+ 
+
+sudo gitlab-ctl reconfigure
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+[root@mail .ssh]# ssh-keygen -C littlexiaowen@163.com
+
+Generating public/private rsa key pair.
+
+Enter file in which to save the key (/root/.ssh/id_rsa):
+
+Enter passphrase (empty for no passphrase):
+
+Enter same passphrase again:
+
+Your identification has been saved in /root/.ssh/id_rsa.
+
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+
+The key fingerprint is:
+
+8a:be:f6:ef:29:94:48:83:ba:50:e7:5c:27:50:5d:eb littlexiaowen@163.com
+
+The key's randomart image is:
+
++--[ RSA 2048]----+
+
+|     ... ..      |
+
+|    .   .  .     |
+
+|   . .    .      |
+
+|  o + o ..       |
+
+| o = + +S E      |
+
+|o   +.o.         |
+
+|..  ...          |
+
+|.  .. .  .       |
+
+|   .oo.++        |
+
++-----------------+
+
+[root@mail .ssh]#
+
+ 
+
+ 
+
+[root@mail .ssh]# cat id_rsa
+
+id_rsa      id_rsa.pub 
+
+[root@mail .ssh]# cat id_rsa.pub
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCnJh76O8cllIjybl5SOJt9PL08Oz146SHoi8hjiRTxyv3o2DW0aermehP5Y9cGhWRmWJV7UJWtPZwXjAlwYQ6MHy6lMqWrpRWnJ93tRGZ8moyQ1Z141EWQExO+0GK7L1B+5S9XkmPTongXEgD2ncFkx4A4+XoiqOKVghl9RSLsYUaDYUPI64aep6RVaf1MxeZ3ZO6lcP+9yU5o6nxV7oZY05g0enM2gmTws02lWRQ2NM2CKcxr1ds0rbLahjmgOsmweiuWfIaReOOivpP97zQDAH7A2doYYEBYGWqy5S3itggQqW/C/w2f8A4iGFnhcVfa48JP5MqGkpIq90waxyi1 littlexiaowen@163.com
+
+[root@mail .ssh]#
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+密码是12345678
+
+然后去邮箱确认。
+
+ 
+
+ 
+
+[wenbin@mail ~]$ ssh-keygen -C littlexiaowen1@163.com
+
+Generating public/private rsa key pair.
+
+Enter file in which to save the key (/home/wenbin/.ssh/id_rsa):
+
+Created directory '/home/wenbin/.ssh'.
+
+Enter passphrase (empty for no passphrase):
+
+Enter same passphrase again:
+
+Your identification has been saved in /home/wenbin/.ssh/id_rsa.
+
+Your public key has been saved in /home/wenbin/.ssh/id_rsa.pub.
+
+The key fingerprint is:
+
+b8:16:48:86:b5:e0:a2:ae:ed:f9:1e:d2:e3:48:2a:31 littlexiaowen1@163.com
+
+The key's randomart image is:
+
++--[ RSA 2048]----+
+
+|  . .            |
+
+| . + .           |
+
+|. o +            |
+
+|.. o . .         |
+
+|.   . o S        |
+
+|E  .   o         |
+
+| +o + o          |
+
+|o+ = +           |
+
+|+.=o+            |
+
++-----------------+
+
+[wenbin@mail ~]$ cat .ssh/id_rsa.pub
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSAm+x3IJMFRQvMmXKke3vakAojTT0O6egaInMs578vQaQMZT2DpHr1iZ9gQy3mdkcapLQeZdHVnGa5Wp7S0wlAvSeUc11mKoRWa4gIbALxPb3n5wbpszMMvvZWLcaMUz8HtPeRHQIhATQj6b6Zz3Ef11HEJ9a4TzPzAHkLlFaB5EXTdnbMDK14r1vkuGw2aOsFF6y3D7pROv7zzb5pz2p24r84a9nXeo8wD9tmp7xb9pwLRgRs2IhklZoxlwl6COc9Zy1gMJPzOboCeEGlwr1zHn1IfMIs/DgedUM7WWS3ZcirE6jX39dRgFC6GK8unTK2WYJoUKLqNBcAmeii3AJ littlexiaowen1@163.com
