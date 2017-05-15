@@ -14,6 +14,10 @@ add:
 Purge the old repo if it exists.
 $ apt-get purge lxc-docker
 
+升级Docker 
+CentOS: yum -y update docker-io
+Ubuntu: apt-get update lxc-docker
+
 Verify that apt is pulling from the right repository.
 $ apt-cache policy docker-engine
 
@@ -32,6 +36,7 @@ Build:
   
   
 1.运行docker
+  service docker start
   docker run -t -i centos-env:1.0.1 /bin/bash
   
   -t - 分配一个（伪） tty (link is external)
@@ -85,6 +90,21 @@ exam: docker run -t -i -d -p 9080:80 -p 9022:22 centos-env:1.0.5 /bin/bash
   通过docker的ps命令，你可以确定容器ID。一旦你进入/var/lib/docker目录，你就可以连接容器了：
   
   nsinit exec /bin/bash
+
+  docker exec -it <container_id> /bin/bash
+
+
+6.备份、迁移、恢复
+  备份：docker commit -p 30b8f18f20b4 container-backup
+        1).# docker tag a25ddfec4d2a arunpyasi/container-backup:test
+        2).# docker push arunpyasi/container-backup
+  备份到本地：
+        # docker save -o ~/container-backup.tar container-backup
+  迁移:docker load -i ~/container-backup.tar
+
+  恢复:docker run -d -p 80:80 container-backup
+
+
 
 
   

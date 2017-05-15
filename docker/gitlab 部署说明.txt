@@ -1,0 +1,62 @@
+gitlab 部署说明：
+0.服务器:
+  10.12.12.189
+1.数据目录
+  /gitlab-zh/config
+  /gitlab-zh/logs
+  /gitlab-zh/data
+2.访问地址：
+  http://10.12.12.189:9080
+ 
+  用户：root/12345678
+
+3.docker
+
+  docker run --detach \
+    --hostname 10.12.12.189 \
+    --publish 9443:443 --publish 9080:80 --publish 9022:22 \
+    --name gitlab-pro \
+    --restart always \
+    --volume /gitlab/config:/etc/gitlab \
+    --volume /gitlab/logs:/var/log/gitlab \
+    --volume /gitlab/data:/var/opt/gitlab \
+    gitlab/gitlab-ce:latest
+
+
+    docker run --detach \
+    --hostname 10.12.12.189 \
+    --publish 9443:443 --publish 9080:80 --publish 9022:22 \
+    --name gitlab-pro-zh \
+    --restart always \
+    --volume /gitlab-zh/config:/etc/gitlab \
+    --volume /gitlab-zh/logs:/var/log/gitlab \
+    --volume /gitlab-zh/data:/var/opt/gitlab \
+    twang2218/gitlab-ce-zh
+
+4.镜像备份
+  /gitlab/gitlab-zh.tar
+
+5.迁移与还原
+  docker load /gitlab/gitlab-zh.tar
+  还原：执行（4）
+
+6.资源申请：
+  1.服务器：
+    配置：4核，8G，2T
+    数量：1台
+  2.域名：git.aspire.com
+  3.环境
+    centos7,nginx,docker
+  4.备份计划：
+    1).本地
+       策略：每日备份，6个月
+       备份：源目录:/gitlab-zh/*
+             备份目录：/app/bak/gitlab/$date
+    2).异备
+       策略：每日备份，12个月
+       备份：源目录:/gitlab-zh/*
+             备份目录:/data/bak/gitlab/$ip-date
+
+7.其它资源
+  获取汉化版Gitlab
+  docker pull twang2218/gitlab-ce-zh

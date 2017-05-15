@@ -1,0 +1,24 @@
+1.安装
+  Set JAVA_HOME
+  Set SCALA_HOME
+2.下载
+   kafka.apache.org
+3. 常用命令
+  1).启动ZK
+    bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+  2).启动kafka
+     bin/kafka-server-start.sh -daemon config/server.properties
+  3).Create Topic
+     bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic default-msg
+  4).List Topic
+     bin/kafka-topics.sh --list --zookeeper localhost:2181
+  5).Send Message
+     bin/kafka-console-producer.sh --broker-list localhost:9092 --topic default-msg
+  6).Receive Msg
+     bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic default-msg --from-beginning
+
+4.配置
+
+5.注意事项 
+  1).防火墙会阻止外部链接，需关闭防火墙。
+  

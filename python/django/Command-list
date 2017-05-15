@@ -1,0 +1,9 @@
+Command List:
+
+
+基础命令
+1.环境安装
+  安装 pip
+  yum -y install epel-release
+  yum -y install python-pip
+  pip install Django==1.11.1 -i  https://mirrors.aliyun.com/pypi/simple/

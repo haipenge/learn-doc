@@ -1,0 +1,27 @@
+yum install -y yum-utils
+
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+
+yum-config-manager --enable docker-ce-edge
+
+sh -c 'echo "<DOCKER-EE-URL>" > /etc/yum/vars/dockerurl'
+
+yum install -y yum-utils
+
+yum-config-manager \
+    --add-repo \
+    <DOCKER-EE-URL>/docker-ee.repo
+
+
+yum install docker-ce
+systemctl start docker
+
+yum update
+
+In Product ENV
+
+Docker CE	sudo yum install docker-ce-<VERSION>
+Docker EE	sudo yum install docker-ee-<VERSION>
