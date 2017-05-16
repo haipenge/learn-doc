@@ -18,5 +18,6 @@
 9.启动带项目自身环境变量的shell
   python manage.py shell
 
+
 10.创建管理员帐户
   python manage.py createsuperuser
