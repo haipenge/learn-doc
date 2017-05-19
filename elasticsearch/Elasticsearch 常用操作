@@ -1,4 +1,5 @@
 #Elasticsearch 常用操作
+一、基础命令
 1.启动
   ./elasticsearch --cluster.name my_cluster_name --node.name my_node_name
 2.查看集群是否健康
@@ -35,3 +36,30 @@
         }'
 
 命令统一格式： curl -<REST Verb> <Node>:<Port>/<Index>/<Type><ID>
+
+
+二.关于集群名称的修改
+ 多台机器
+
+\config\elasticsearch.yml 文件修改
+
+cluster.name设置统一的集群名如
+
+cluster.name: win-es-001
+
+node.name 设置当前Node名称 
+
+node.name: "win-da-013"
+
+如果没有办法自发现，可以查看日志，看启动IP是否正确，如果不正确可以手动设置
+
+network.host
+
+设置内存：
+1.启动时指定jvm内存
+  ./bin/elasticsearch -Xmx32g -Xms32g
+
+  确保Xmx和Xms的大小是相同的，防止程序在运行时改变大小
+
+2.设置堆的大小
+  export ES_HEAP_SIZE=10g
