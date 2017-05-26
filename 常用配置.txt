@@ -1,0 +1,5 @@
+1.内存调整
+ linux下的tomcat：  
+修改TOMCAT_HOME/bin/catalina.sh 
+位置cygwin=false前。
+JAVA_OPTS="-server -Xms256m -Xmx512m -XX:PermSize=64M -XX:MaxPermSize=128m" 
