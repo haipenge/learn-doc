@@ -12,10 +12,10 @@ cd $ROOT
 #Prepare Dir
 mkdir -p nginx openssl pcre zlib
 #Version Config
-PCRE_VERSION=8.37
-ZLIB_VERSION=1.2.8
-OPEN_SSL_VERSION=0.9.8zh
-NGINX_VERSION=1.9.9
+PCRE_VERSION=8.40
+ZLIB_VERSION=1.2.11
+OPEN_SSL_VERSION=1.0.21
+NGINX_VERSION=1.13.0
 #####Prepare######################
 yum -y install gcc automake autoconf libtool make
 yum -y install gcc gcc-c++
