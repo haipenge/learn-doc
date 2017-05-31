@@ -1,0 +1,52 @@
+1.安装git和bc
+
+yum -y install git bc  
+
+2.安装Nginx
+（1）准备：
+
+yum install -y gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel  
+（2）下载：
+
+wget https://nginx.org/download/nginx-1.11.6.tar.gz  
+（3）解压：
+
+tar zxvf nginx-1.11.6.tar.gz  
+（4）编译安装： 
+
+cd nginx-1.11.6  
+./configure --with-ipv6 --with-http_ssl_module  
+make  
+make install  
+
+3.申请SSL证书
+（1）下载Let’s Encrypt  
+
+git clone https://github.com/wjg1101766085/certbot.git  
+（2）运行Let’s Encrypt
+
+cd certbot  
+./letsencrypt-auto  
+    生成文件：  
+
+cert.pem: 域名证书  
+chain.pem: The Let’s Encrypt 证书  
+fullchain.pem: 上面两者合体  
+privkey.pem: 证书密钥  
+
+4.配置Nginx
+（1）修改nginx.conf文件     
+
+nano /usr/local/nginx/conf/nginx.conf  
+（2）添加：  
+
+ssl_certificate /etc/letsencrypt/live/域名/fullchain.pem;  
+ssl_certificate_key /etc/letsencrypt/live/域名/privkey.pem;  
+（3）修改：
+server_name 域名;  
+5.自动续签证书
+    创建定时任务执行 letsencrypt路径/letsencrypt-auto renew
+    例如：
+crontab -e  
+新增一行  
+30 2 * * 1 letsencrypt路径/letsencrypt-auto renew  
