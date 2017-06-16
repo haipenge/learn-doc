@@ -1,0 +1,8 @@
+使用YUM下载 rpm包
+yum install --downloadonly --downloaddir=/tmp <package-name> 
+
+yum -y install --downloadonly --downloaddir=/opt/softs/docker docker-ce.x86_64
+
+yum -y install --downloadonly --downloaddir=/tmp libcgroup
+
+yum install -y yum-utils device-mapper-persistent-data lvm2

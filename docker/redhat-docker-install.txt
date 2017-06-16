@@ -1,0 +1,20 @@
+#Red hat docker install step
+1.Remove old docker
+
+sudo yum remove docker \
+                  docker-common \
+                  container-selinux \
+                  docker-selinux \
+                  docker-engine
+
+2.
+ sudo sh -c 'echo "<DOCKER-EE-URL>" > /etc/yum/vars/dockerurl'
+
+3.
+ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+4.
+
+sudo yum-config-manager \
+    --add-repo \
+    <DOCKER-EE-URL>/docker-ee.repo

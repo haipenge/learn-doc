@@ -1,0 +1,8 @@
+ $ $HADOOP_HOME/bin/hadoop fs -mkdir       /tmp
+ $ $HADOOP_HOME/bin/hadoop fs -mkdir       /user/hive/warehouse
+ $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp
+ $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
+<db type> derby
+$HIVE_HOME/bin/schematool -dbType <db type> -initSchema
+
+$HIVE_HOME/bin/schematool -dbType derby -initSchema

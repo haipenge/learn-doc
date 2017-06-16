@@ -1,11 +1,17 @@
 设置Root密码
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('^%$clwy2015!@#$1234');
-FLUSH PRIVILEGES;
-
 SET PASSWORD FOR 'x_smart'@'%' = PASSWORD('xsmart1234509876');
+FLUSH PRIVILEGES;
 
 #设置
 SET PASSWORD FOR 'root'@'host_name' = PASSWORD('newpwd');
+
+使用mysqladmin命令修改Mysql密码
+
+1.例如你的 root用户现在没有密码，你希望的密码修改为123456，那么命令是：
+mysqladmin -u root password 123456
+2.如果你的root现在有密码了（123456），那么修改密码为abcdef的命令是：
+mysqladmin -u root -p password abcdef
 
 创建用户：
 CREATE USER 'pig'@'192.168.1.101_' IDENDIFIED BY '123456'; 
@@ -16,17 +22,16 @@ CREATE USER 'x-smart'@'%' IDENTIFIED BY 'xsmart%^&$#12%^';
 CREATE USER 'x_smart'@'%' IDENTIFIED BY 'xsmart%^&$#12%^'; 
 
 授权:
+
 GRANT ALL ON *.* TO 'pig'@'%';
-
 GRANT ALL ON x_smart.* TO 'x_smart'@'%';
-
 GRANT ALL ON test_x_smart.* TO 'test_x_smart'@'%'
-
-GRANT EXECUTE ON PROCEDURE test_x_smart TO ‘test_x_smart’@‘%’
-
-
+GRANT EXECUTE ON PROCEDURE test_x_smart TO ‘test_x_smart’@‘%‘
 GRANT EXECUTE ON FUNCTION getDistance TO 'test_x_smart'@'%';
 
+授于部分权限：
+grant select,update,delete,drop,create on testDB.* to test@localhost identified by '1234';
+grant select on *.* to 'read_prnp'@'%'' identified by 'read_prnp';
 
 导出数据：
 命令行下具体用法如下：  mysqldump -u用戶名 -p密码 -d 數據库名 表名 脚本名;
@@ -130,3 +135,10 @@ mysql> LOAD DATA LOCAL INFILE '/tmp/mysql_user.csv' INTO TABLE user FIELDS TERMI
 如果LOAD DATA语句不带LOCAL关键字,就在MySQL的服务器上直接读取文件,且要具有FILE权限.
 如果带LOCAL关键字,就在客户端本地读取数据文件,通过网络传到MySQL.
 LOAD DATA语句,同样被记录到binlog,不过是内部的机制.
+
+
+#删除bin-log日志
+mysql> purge {master|binary} logs to ‘log_name’;
+mysql> purge {master|binary} logs before ‘date’;
+#使用bin-log恢复数据
+mysqlbinlog xxx-bin.000001|mysql -u root –p password dataname
