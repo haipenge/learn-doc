@@ -24,6 +24,7 @@ CREATE USER 'x_smart'@'%' IDENTIFIED BY 'xsmart%^&$#12%^';
 授权:
 
 GRANT ALL ON *.* TO 'pig'@'%';
+
 GRANT ALL ON x_smart.* TO 'x_smart'@'%';
 GRANT ALL ON test_x_smart.* TO 'test_x_smart'@'%'
 GRANT EXECUTE ON PROCEDURE test_x_smart TO ‘test_x_smart’@‘%‘
@@ -32,6 +33,8 @@ GRANT EXECUTE ON FUNCTION getDistance TO 'test_x_smart'@'%';
 授于部分权限：
 grant select,update,delete,drop,create on testDB.* to test@localhost identified by '1234';
 grant select on *.* to 'read_prnp'@'%'' identified by 'read_prnp';
+
+grant ALL ON *.* TO 'prnp'@'%'' identified by 'prnp';
 
 导出数据：
 命令行下具体用法如下：  mysqldump -u用戶名 -p密码 -d 數據库名 表名 脚本名;

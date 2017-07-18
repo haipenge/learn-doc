@@ -6,3 +6,16 @@
 $HIVE_HOME/bin/schematool -dbType <db type> -initSchema
 
 $HIVE_HOME/bin/schematool -dbType derby -initSchema
+
+1).Start hive as service
+
+hive --service metastore &
+
+2).datanucleus.schema.autoCreateAll
+ at fist time start hive and sqoop,
+ set datanucleus.schema.autoCreateAll to 'true' at hive-default.xml
+
+3).fix :'Could not register mbeans java.security.AccessControlException: access denied'
+ add to $JAVA_HOME/jre/lib/security/java.security
+
+ permission java.util.PropertyPermission "*", "read,write";
