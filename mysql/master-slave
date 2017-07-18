@@ -1,0 +1,23 @@
+#Master - Slave
+
+ CHANGE MASTER TO \
+         MASTER_HOST='10.0.0.101',\
+         MASTER_USER='repl102', \
+         MASTER_PASSWORD='yangcan',\
+         MASTER_PORT=3306,\
+         MASTER_LOG_FILE='mysql-bin.000001',\
+         MASTER_LOG_POS=106,\
+         MASTER_CONNECT_RETRY=10;
+
+
+常用命令：
+master端：
+show master status;—查看状态：
+show processlist; –查看slave下MySQL进程信息
+reset master; #慎用，将清空日志及同步position
+slave端：
+CHANGE MASTER TO MASTER_LOG_FILE=’master.000019′;
+show slave status;
+show slave logs;
+show processlist;
+reset slave; #慎用，将清空slave配置信息、日志及同步position

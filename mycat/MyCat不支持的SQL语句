@@ -1,0 +1,36 @@
+MyCat不支持的SQL语句：
+Insert 类型：
+1. 多行插入 
+   insert into tab_a(c1,c2) values(v1,v2),(v11,v21)…
+2.复制插入
+   Insert into…select… 
+3.插入的字段不包含分片字段 (如插入tbl_user_base_info表，没有提供user_id列)
+4. 插入的分片字段找不到对应分片
+
+Update 类型：
+1.多表更新 
+  update a, b set a.nation=’China’, b.pwd=’123456’ where a.id=b.id 
+2.复杂更新 
+  update a, b set a.nation=’China’ where a.id=b.id;  
+  但支持子查询方式 update a set a.nation=’China’ where id in (select id from b);
+
+DELETE：
+1.复杂删除 
+  delete a from a join b on a.id=b.id; 
+   支持子查询方式 delete from a where a.id in (select id from b), 但表不能起别名
+其它：
+1.Call procedure()  
+  MyCat未支持存储过程定义, 因而不允许调用存储过程，但可通过注解来调用各个分片上的存储过程
+2. Select func(); 
+  不支持这种方式直接调用自定义函数， 但支持 select id, func() from employee 只需employee所在的所有分片上存在这个函数。
+  MySql自带函数可随意使用。
+
+其它注意事项：
+1.Order by字段必须出现在select中（MyCat先将结果取出，然后排序）
+2.Group by务必使用标准语法 select count(1),type from tab_a group by type;
+3.Mycatt的一些自带函数 sum,min,max等可以正确使用，但多分片执行的avg有bug，执行的结果是错误的
+4.谨慎使用子查询，外层查询没有分片查询条件， 则会在所有分片上执行(子查询内外层的表一样较为特殊)
+
+附：
+SQL语法检测工具：
+http://10.12.12.141:18080/Mycat-web-1.0-SNAPSHOT/#page/sqlonline/sqlcheck.html
