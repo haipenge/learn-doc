@@ -1,0 +1,19 @@
+1.Disable Firewall
+ check:
+   service iptables status
+ close:
+   chkconfig iptables off 
+
+2.login linux without password
+  ssh-keygen –t rsa –P ''
+  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys 
+  chmod 700 ~/.ssh
+  chmod 600 ~/.ssh/authorized_keys 
+
+  test:
+    ssh localhost
+
+  Distribute public key 2 slave:
+    scp ~/.ssh/authorized_keys Hadoop@Slave1.Hadoop:~/.ssh/ 
+
+  then chmod 600 to authorized_keys

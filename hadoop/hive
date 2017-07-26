@@ -11,6 +11,7 @@
  $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp
  $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
 
+<<<<<<< HEAD
  如果要使用不同的hive仓库目录
  保持以上目录与hive-default.xml hive.metastore.warehouse.dir 一致
 
@@ -47,3 +48,19 @@
  6.Show tables
     hive>show tables;
     hive>show tables '.*s';
+=======
+$HIVE_HOME/bin/schematool -dbType derby -initSchema
+
+1).Start hive as service
+
+hive --service metastore &
+
+2).datanucleus.schema.autoCreateAll
+ at fist time start hive and sqoop,
+ set datanucleus.schema.autoCreateAll to 'true' at hive-default.xml
+
+3).fix :'Could not register mbeans java.security.AccessControlException: access denied'
+ add to $JAVA_HOME/jre/lib/security/java.security
+
+ permission java.util.PropertyPermission "*", "read,write";
+>>>>>>> 09921b402328c133165a8644ca50f8e76134b2d8
