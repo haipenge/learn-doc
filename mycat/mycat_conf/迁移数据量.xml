@@ -1,0 +1,35 @@
+indiv_addrs                                   1.1亿
+indiv_mobils                                    2600万
+exp_provice_userdiv                             6500万
+exp_userdiv                                     6200万
+indivuser                                       2300万
+inmessage                                       1000万
+report_indiv_addrs                               800万
+report_indiv_mobils                              400万
+report_indivuser                                 400万
+user_count                                      1000万
+userpseudecode_count                             300万
+express_delivery_status_count_temp              5000万
+express_delivery_status                        3亿
+express_delivery_status_firstfacecount_temp      400万
+express_delivery_status_interface              3亿
+first_face_userdiv                              4000万
+indivuseractive_count_expcity                    300万
+indivuseractive_count_expcounty                 1200万
+useractive_count_county                          500万
+useractive_count_expcity                         350万
+useractive_count_expcounty                      1300万
+usercheck_count                                 1600万
+usercheck_count_xieyi                           2500万
+
+
+
+
+7.14机房搬迁前数据迁移测算
+待迁移数据总量：约10.9亿
+迁移速度：2000-3000万/小时，预计总耗时：35-54小时
+7.14日-迁移结束日(7.14数据批次)
+数据量3.5-4亿，预计耗时：15-25小时
+
+距离迁移工作完成还需50-80小时（乐观估计8.2日完成迁移）
+

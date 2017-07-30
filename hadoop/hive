@@ -12,6 +12,9 @@
  $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> local
  如果要使用不同的hive仓库目录
  保持以上目录与hive-default.xml hive.metastore.warehouse.dir 一致
 
@@ -48,6 +51,7 @@
  6.Show tables
     hive>show tables;
     hive>show tables '.*s';
+<<<<<<< HEAD
 =======
 $HIVE_HOME/bin/schematool -dbType derby -initSchema
 
@@ -64,3 +68,5 @@ hive --service metastore &
 
  permission java.util.PropertyPermission "*", "read,write";
 >>>>>>> 09921b402328c133165a8644ca50f8e76134b2d8
+=======
+>>>>>>> local

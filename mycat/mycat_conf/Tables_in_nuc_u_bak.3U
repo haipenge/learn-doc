@@ -1,0 +1,56 @@
+ Tables_in_nuc                               |
++---------------------------------------------+
+U| compliance                                  |                           
+U| courier                                     |
+U| courier_cache                               |
+U| courier_his                                 |
+U| courier_tmp1                                |
+U| courieractive_count                         |B  Time
+U| couriermessage                              |
+U| ec_indiv_addrs                              |B  UserIDNo              
+U| ec_indiv_addrs_update                       |
+U| ec_indiv_mobils                             |B  UserIDNo     
+U| ec_indiv_mobils_update                      |
+U| ec_indivuser                                |B  UserIDNo                 
+U| ec_indivuser_18                             |                    
+U| ec_indivuser_count_temp                     |
+U| ec_indivuser_temp                           |
+U| ec_indivuser_update                         |
+U| exceptionmessage                            |
+U| exp_city_userdiv                            |
+U| exp_city_userdiv_result                     |
+U| exp_provice_userdiv                         |
+U| exp_provice_userdiv_result                  |
+U| exp_user_id_temp                            |
+U| exp_userdiv                                 |
+U| exp_userdiv_result                          |
+U| exporg                                      |
+U| indiv_addrs                                 |B  UserIDNo
+U| indiv_addrs_his                             |
+U| indiv_except                                |
+U| indiv_mobils                                |B  UserIDNo
+U| indiv_mobils_his                            |
+U| indivuser                                   |B  UserIDNo
+U| indivuser_cache                             |
+U| indivuser_his                               |
+U| indivuser_interface                         |
+U| indivuser_time_addr                         |
+U| inmessage                                   |
+U| interface_data_todisk                       |B  createTime
+U| orguser                                     |
+U| orguser_cache                               |
+U| orguser_count                               |B  Time
+U| orguser_count_temp                          |
+U| orguser_his                                 |
+U| orguser_time_addr                           |
+U| orgusermessage                              |
+U| outmessage                                  |
+U| outmessage_cache                            |
+U| report_indiv_addrs                          |
+U| report_indiv_mobils                         |
+U| report_indivuser                            |
+U| report_indivuser_his                        |
+U| user_count                                  |B  Time
+U| userexcept_count                            |
+U| userpseudecode_count                        |
++---------------------------------------------+

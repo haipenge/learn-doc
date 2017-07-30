@@ -11,5 +11,19 @@ Disk 操作
     lvextend -L +6.56T /dev/mapper/VolGroup-LogVol01
     resize2fs /dev/mapper/VolGroup-LogVol01
 
+<<<<<<< HEAD
     lvextend -L +5.6T /dev/mapper/VolGroup-LogVol01
     resize2fs /dev/mapper/VolGroup-LogVol01
+=======
+    lvextend -L +6.6T /dev/mapper/VolGroup-LogVol02
+    resize2fs /dev/mapper/VolGroup-LogVol02
+
+   lvextend -L +223G /dev/mapper/vg_yzjyy2-LogVol02
+
+   resize2fs /dev/mapper/vg_yzjyy2-LogVol02
+
+
+   lvextend -L +1T /dev/mapper/VolGroup-LogVol02
+
+   resize2fs /dev/mapper/VolGroup-LogVol02
+>>>>>>> local

@@ -1,0 +1,5 @@
+Sqoop异常处理
+1.javax.management.MBeanTrustPermission permission 
+
+cd JAVA_HOME/jre/lib/security/java.policy
+permission javax.management.MBeanTrustPermission "register";

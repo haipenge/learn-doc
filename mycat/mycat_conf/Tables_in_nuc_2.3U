@@ -1,0 +1,53 @@
+<table name="compliance" dataNode="dn2"/>                           
+<table name="courier" dataNode="dn2"/>
+<table name="courier_cache" dataNode="dn2"/>
+<table name="courier_his" dataNode="dn2"/>
+<table name="courier_tmp1" dataNode="dn2"/>
+<table name="courieractive_count" dataNode="dn2"  rule="user_time_rule"/>
+<table name="couriermessage" dataNode="dn2"/>
+<table name="ec_indiv_addrs" dataNode="dn2"/>  rule="user_rule"/>              
+<table name="ec_indiv_addrs_update" dataNode="dn2"/>
+<table name="ec_indiv_mobils" dataNode="dn2"  rule="user_rule"/>     
+<table name="ec_indiv_mobils_update" dataNode="dn2"/>
+<table name="ec_indivuser" dataNode="dn2"/>  rule="user_rule"/>                 
+<table name="ec_indivuser_18" dataNode="dn2"/>                    
+<table name="ec_indivuser_count_temp" dataNode="dn2"/>
+<table name="ec_indivuser_temp" dataNode="dn2"/>
+<table name="ec_indivuser_update" dataNode="dn2"/>
+<table name="exceptionmessage" dataNode="dn2"/>
+<table name="exp_city_userdiv" dataNode="dn2"/>
+<table name="exp_city_userdiv_result" dataNode="dn2"/>
+<table name="exp_provice_userdiv" dataNode="dn2"/>
+<table name="exp_provice_userdiv_result" dataNode="dn2"/>
+<table name="exp_user_id_temp" dataNode="dn2"/>
+<table name="exp_userdiv" dataNode="dn2"/>
+<table name="exp_userdiv_result" dataNode="dn2"/>
+<table name="exporg" dataNode="dn2"/>
+<table name="indiv_addrs" dataNode="dn2"  rule="user_rule"/>
+<table name="indiv_addrs_his" dataNode="dn2"/>
+<table name="indiv_except" dataNode="dn2"/>
+<table name="indiv_mobils" dataNode="dn2"  rule="user_rule"/>
+<table name="indiv_mobils_his" dataNode="dn2"/>
+<table name="indivuser" dataNode="dn2"  rule="user_rule"/>
+<table name="indivuser_cache" dataNode="dn2"/>
+<table name="indivuser_his" dataNode="dn2"/>
+<table name="indivuser_interface" dataNode="dn2"/>
+<table name="indivuser_time_addr" dataNode="dn2"/>
+<table name="inmessage" dataNode="dn2"/>
+<table name="interface_data_todisk" dataNode="dn2"/>  rule="user_create_time_rule"/>
+<table name="orguser" dataNode="dn2"/>
+<table name="orguser_cache" dataNode="dn2"/>
+<table name="orguser_count" dataNode="dn2"  rule="user_time_rule"/>
+<table name="orguser_count_temp" dataNode="dn2"/>
+<table name="orguser_his" dataNode="dn2"/>
+<table name="orguser_time_addr" dataNode="dn2"/>
+<table name="orgusermessage" dataNode="dn2"/>
+<table name="outmessage" dataNode="dn2"/>
+<table name="outmessage_cache" dataNode="dn2"/>
+<table name="report_indiv_addrs" dataNode="dn2"/>
+<table name="report_indiv_mobils" dataNode="dn2"/>
+<table name="report_indivuser" dataNode="dn2"/>
+<table name="report_indivuser_his" dataNode="dn2"/>
+<table name="user_count" dataNode="dn2"  rule="user_time_rule"/>
+<table name="userexcept_count" dataNode="dn2"/>
+<table name="userpseudecode_count" dataNode="dn2"/>

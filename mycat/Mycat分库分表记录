@@ -1,0 +1,60 @@
+Mycat分库分表记录
+1.分库规则
+用户库:nuc_user
+查验证:nuc_delivery
+2.分表规则
+express_delivery_status_interface
+express_delivery_status
+ec_indivuser 
+ec_indiv_addrs
+ec_indiv_mobils
+indivuser
+indiv_addrs
+indiv_mobils
+
+
+导出数据库：
+mysqldump -uprnp -pprnp  -c --skip-add-locks tongjidb> /tmp/tongjidb_20170728.sql
+导出表：
+mysqldump -uprnp -pprnp -c --skip-add-locks tongjidb express_delivery_status > /tmp/express_delivery_status_20170728.sql
+
+导出表中的部分数据
+mysqldump -c -–skip-add-locks tongjidb express_delivery_status --where=" id > 900 " > /tmp/express_delivery_status.sql
+
+
+mysqldump -c -–skip-add-locks tongjidb table1 table2> /tmp/someTables.sql
+
+
+
+使用Mycat导入:
+
+
+mysqldump -uprnp -pprnp  -c --skip-add-locks nuc> /tmp/tongjidb_20170727.sql
+
+source /tmp/tongjidb_20170727.sql
+
+set FOREIGN_KEY_CHECKS=0;  #在导入前设置为不检查外键约束  
+。。。。#导入数据  
+set FOREIGN_KEY_CHECKS=1;  #在导入后恢复检查外键约束 
+
+
+查看表的外键
+select
+TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
+from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+where
+REFERENCED_TABLE_NAME ='menu'
+
+问题：
+1.权限表 sec_role_resource_operation
+  无法自动导入数据，原因：分库分表环境下主外键约束，导致数据无法满足约束条件，无法导入数据
+  临时解决：删除主外键关系
+  长远解决：将权限表在Mycat中配置为全局在，在所有分片上维护数据副本
+2.city表不存在
+  手工导入
+3.sec_department_role
+  无外键，删除外键导入
+4.sec_resource_category
+  数据不一致，重新导入
+5.sec_resources
+无数据，外键影响，删除外键，重新导入数据

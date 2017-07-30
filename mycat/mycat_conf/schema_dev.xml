@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+
+	<schema name="nuc_dist" checkSQLschema="false">
+		<!-- auto sharding by id (long) -->
+		<!--table name="travelrecord" dataNode="dn1,dn2,dn3" rule="auto-sharding-long" /-->
+		<!--ER express delivery-->
+<table name="audit_count" dataNode="dn2"/>
+<table name="check_stat" dataNode="dn2"/>
+<table name="check_stat_msg" dataNode="dn2"/>
+<table name="delivery_all_count" dataNode="dn2"/>
+<table name="delivery_month_anjian" dataNode="dn2"/>
+<table name="express_delivery_status" dataNode="multipleDn$0-999"  rule="express_deliver_rule"/>
+<table name="express_delivery_status_count_temp" dataNode="multipleDn$0-999"  rule="express_deliver_rule"/>
+<table name="express_delivery_status_firstfacecount_temp" dataNode="multipleDn$0-999"  rule="express_deliver_rule"/>
+<table name="express_delivery_status_interface" dataNode="multipleDn$0-999"  rule="express_deliver_rule"/>
+<table name="first_face_userdiv" dataNode="dn2"/>
+<table name="first_face_userdiv_time" dataNode="dn2"/>
+<table name="indivuseractive_count" dataNode="dn2"/>
+<table name="indivuseractive_count_city" dataNode="dn2"/>
+<table name="indivuseractive_count_county" dataNode="multipleDn$0-999"  rule="express_deliver_time_rule"/>
+<table name="indivuseractive_count_exp" dataNode="dn2"/>
+<table name="indivuseractive_count_expcity" dataNode="dn2"/>
+<table name="indivuseractive_count_expcounty" dataNode="multipleDn$0-999"  rule="express_deliver_time_rule"/>
+<table name="indivuseractive_count_expprovince" dataNode="dn2"/>
+<table name="indivuseractive_count_province" dataNode="dn2"/>
+<table name="indivuseractive_count_time" dataNode="dn2"/>
+<table name="new_user_stat" dataNode="dn2"/>
+<table name="newuser_stat_msg" dataNode="dn2"/>
+<table name="useractive_count" dataNode="dn2"/>
+<table name="useractive_count_city" dataNode="dn2"/>
+<table name="useractive_count_county" dataNode="multipleDn$0-999"  rule="express_deliver_time_rule"/>
+<table name="useractive_count_exp" dataNode="dn2"/>
+<table name="useractive_count_expcity" dataNode="dn2"/>
+<table name="useractive_count_expcounty" dataNode="multipleDn$0-999"  rule="express_deliver_time_rule"/>
+<table name="useractive_count_expprovince" dataNode="dn2"/>
+<table name="useractive_count_province" dataNode="dn2"/>
+<table name="useractive_count_time" dataNode="dn2"/>
+<table name="usercheck_count" dataNode="multipleDn$0-999" rule="express_deliver_time_rule"/>
+<table name="usercheck_count_time" dataNode="dn2"/>
+<table name="usercheck_count_xieyi" dataNode="multipleDn$0-999"  rule="express_deliver_time_rule"/>
+<table name="userfacecheck_count" dataNode="multipleDn$0-999"  rule="express_deliver_time_rule"/>
+
+<!--User-->
+<table name="compliance" dataNode="dn2"/>                           
+<table name="courier" dataNode="dn2"/>
+<table name="courier_cache" dataNode="dn2"/>
+<table name="courier_his" dataNode="dn2"/>
+<table name="courier_tmp1" dataNode="dn2"/>
+<table name="courieractive_count" dataNode="multipleDn$0-999"  rule="user_time_rule"/>
+<table name="couriermessage" dataNode="dn2"/>
+<table name="ec_indiv_addrs" dataNode="multipleDn$0-999"  rule="user_rule"/>              
+<table name="ec_indiv_addrs_update" dataNode="dn2"/>
+<table name="ec_indiv_mobils" dataNode="multipleDn$0-999"  rule="user_rule"/>     
+<table name="ec_indiv_mobils_update" dataNode="dn2"/>
+<table name="ec_indivuser" dataNode="multipleDn$0-999"  rule="user_rule"/>                 
+<table name="ec_indivuser_18" dataNode="dn2"/>                    
+<table name="ec_indivuser_count_temp" dataNode="dn2"/>
+<table name="ec_indivuser_temp" dataNode="dn2"/>
+<table name="ec_indivuser_update" dataNode="dn2"/>
+<table name="exceptionmessage" dataNode="dn2"/>
+<table name="exp_city_userdiv" dataNode="dn2"/>
+<table name="exp_city_userdiv_result" dataNode="dn2"/>
+<table name="exp_provice_userdiv" dataNode="dn2"/>
+<table name="exp_provice_userdiv_result" dataNode="dn2"/>
+<table name="exp_user_id_temp" dataNode="dn2"/>
+<table name="exp_userdiv" dataNode="dn2"/>
+<table name="exp_userdiv_result" dataNode="dn2"/>
+<table name="exporg" dataNode="dn2"/>
+<table name="indiv_addrs" dataNode="multipleDn$0-999"  rule="user_rule"/>
+<table name="indiv_addrs_his" dataNode="dn2"/>
+<table name="indiv_except" dataNode="dn2"/>
+<table name="indiv_mobils" dataNode="multipleDn$0-999"  rule="user_rule"/>
+<table name="indiv_mobils_his" dataNode="dn2"/>
+<table name="indivuser" dataNode="multipleDn$0-999"  rule="user_rule"/>
+<table name="indivuser_cache" dataNode="dn2"/>
+<table name="indivuser_his" dataNode="dn2"/>
+<table name="indivuser_interface" dataNode="dn2"/>
+<table name="indivuser_time_addr" dataNode="dn2"/>
+<table name="inmessage" dataNode="dn2"/>
+<table name="interface_data_todisk" dataNode="multipleDn$0-999"  rule="user_create_time_rule"/>
+<table name="orguser" dataNode="dn2"/>
+<table name="orguser_cache" dataNode="dn2"/>
+<table name="orguser_count" dataNode="multipleDn$0-999"  rule="user_time_rule"/>
+<table name="orguser_count_temp" dataNode="dn2"/>
+<table name="orguser_his" dataNode="dn2"/>
+<table name="orguser_time_addr" dataNode="dn2"/>
+<table name="orgusermessage" dataNode="dn2"/>
+<table name="outmessage" dataNode="dn2"/>
+<table name="outmessage_cache" dataNode="dn2"/>
+<table name="report_indiv_addrs" dataNode="dn2"/>
+<table name="report_indiv_mobils" dataNode="dn2"/>
+<table name="report_indivuser" dataNode="dn2"/>
+<table name="report_indivuser_his" dataNode="dn2"/>
+<table name="user_count" dataNode="multipleDn$0-999"  rule="user_time_rule"/>
+<table name="userexcept_count" dataNode="dn2"/>
+<table name="userpseudecode_count" dataNode="dn2"/>
+
+<!--Global -->
+<table name="admin" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="attachment_file" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="attachment_group" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="attachment_type" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="business_log" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="business_log_category" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="business_log_type" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="city" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="code_dict" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="configitem" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="dic" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="district_code" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="email_attachment" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="email_send" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="email_send_history" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="links" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="menu" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="mon_address" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="mon_bill_number" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="mon_express" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="mon_indivuser" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="mon_send_address" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="mon_sender" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="pend_task_remind" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="pend_task_remind_log" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="pend_task_setting" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="person_setting"  dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="person_shortcut" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="portal_session" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="province" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_department" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_department_extend_property" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="sec_department_role" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_login_history" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_metadata_log" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="sec_operation" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_operation_address" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_password_history" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_resource_category" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="sec_resources" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_role" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_role_resource_operation" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="sec_staff" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_staff_department_role" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_staff_extend_property" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sec_staff_role" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seclevel_message" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_attach_file_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_attach_type_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_email_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_sec_department_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_sec_metadata_log_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_sec_operation_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_sec_resource_category_id" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="seq_sec_resources_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_sec_role_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="seq_sec_staff_id" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sms_receive" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sms_receive_history" dataNode="dn2,multipleDn$0-999"  type="global"/>
+<table name="sms_segment" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sms_send" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sms_send_history" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sms_session_info" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="sub_system" dataNode="dn2,multipleDn$0-999" type="global"/>
+<table name="suspend_indivuser" dataNode="dn2,multipleDn$0-999" type="global"/> 
+
+
+
+		<!-- global table is auto cloned to all defined data nodes ,so can join
+			with any table whose sharding node is in the same data node -->
+		<!--table name="company" primaryKey="ID" type="global" dataNode="dn1,dn2,dn3" /-->
+		<!--table name="goods" primaryKey="ID" type="global" dataNode="dn1,dn2" /-->
+		<!-- random sharding using mod sharind rule -->
+		<!--table name="hotnews" primaryKey="ID" autoIncrement="true" dataNode="dn1,dn2,dn3"
+			   rule="mod-long" /-->
+		<!-- <table name="dual" primaryKey="ID" dataNode="dnx,dnoracle2" type="global"
+			needAddLimit="false"/> <table name="worker" primaryKey="ID" dataNode="jdbc_dn1,jdbc_dn2,jdbc_dn3"
+			rule="mod-long" /> -->
+		<!--table name="employee" primaryKey="ID" dataNode="dn1,dn2"
+			   rule="sharding-by-intfile" /-->
+		<!--table name="customer" primaryKey="ID" dataNode="dn1,dn2"
+			   rule="sharding-by-intfile"-->
+			<!--childTable name="orders" primaryKey="ID" joinKey="customer_id"
+						parentKey="id"-->
+				<!--childTable name="order_items" joinKey="order_id"
+							parentKey="id" /-->
+			<!--/childTable-->
+			<!--childTable name="customer_addr" primaryKey="ID" joinKey="customer_id"
+						parentKey="id" /-->
+		<!--/table-->
+		<!-- <table name="oc_call" primaryKey="ID" dataNode="dn1$0-743" rule="latest-month-calldate"
+			/> -->
+	</schema>
+	<!--
+	<schema name="tongjidb" checkSQLschema="false" dataNode="dn1">
+	</schema>-->
+	<!-- <dataNode name="dn1$0-743" dataHost="localhost1" database="db$0-743"
+		/> -->
+	<dataNode name="multipleDn$0-999" dataHost="db_host_156" database="db$0-999"/>
+	<dataNode name="dn2" dataHost="db_host_156" database="nuc_default"/>
+       <!--
+	<dataNode name="dn2" dataHost="localhost1" database="db2" />
+	<dataNode name="dn2" dataHost="localhost1" database="db3" />
+       -->
+	<!--<dataNode name="dn4" dataHost="sequoiadb1" database="SAMPLE" />
+	 <dataNode name="jdbc_dn1" dataHost="jdbchost" database="db1" />
+	<dataNode	name="jdbc_dn2" dataHost="jdbchost" database="db2" />
+	<dataNode name="jdbc_dn3" 	dataHost="jdbchost" database="db3" /> -->
+	<dataHost name="db_host_156" maxCon="1000" minCon="10" balance="1" switchType='-1'
+			  writeType="0" dbType="mysql" dbDriver="native">
+		<heartbeat>select user()</heartbeat>
+		<!-- can have multi write hosts -->
+		<writeHost host="m0" url="10.12.12.141:13306" user="prnp"
+				   password="prnp">
+			<!-- can have multi read hosts -->
+			<readHost host="s0" url="10.12.12.141:13307" user="prnp" password="prnp" />
+		</writeHost>
+		<!--writeHost host="hostS1" url="localhost:3316" user="root"
+				   password="123456" /-->
+		<!-- <writeHost host="hostM2" url="localhost:3316" user="root" password="123456"/> -->
+	</dataHost>
+
+
+	<!--
+		<dataHost name="sequoiadb1" maxCon="1000" minCon="1" balance="0" dbType="sequoiadb" dbDriver="jdbc">
+		<heartbeat> 		</heartbeat>
+		 <writeHost host="hostM1" url="sequoiadb://1426587161.dbaas.sequoialab.net:11920/SAMPLE" user="jifeng" 	password="jifeng"></writeHost>
+		 </dataHost>
+
+	  <dataHost name="oracle1" maxCon="1000" minCon="1" balance="0" writeType="0" 	dbType="oracle" dbDriver="jdbc"> <heartbeat>select 1 from dual</heartbeat>
+		<connectionInitSql>alter session set nls_date_format='yyyy-mm-dd hh24:mi:ss'</connectionInitSql>
+		<writeHost host="hostM1" url="jdbc:oracle:thin:@127.0.0.1:1521:nange" user="base" 	password="123456" > </writeHost> </dataHost>
+
+		<dataHost name="jdbchost" maxCon="1000" 	minCon="1" balance="0" writeType="0" dbType="mongodb" dbDriver="jdbc">
+		<heartbeat>select 	user()</heartbeat>
+		<writeHost host="hostM" url="mongodb://192.168.0.99/test" user="admin" password="123456" ></writeHost> </dataHost>
+
+		<dataHost name="sparksql" maxCon="1000" minCon="1" balance="0" dbType="spark" dbDriver="jdbc">
+		<heartbeat> </heartbeat>
+		 <writeHost host="hostM1" url="jdbc:hive2://feng01:10000" user="jifeng" 	password="jifeng"></writeHost> </dataHost> -->
+
+	<!-- <dataHost name="jdbchost" maxCon="1000" minCon="10" balance="0" dbType="mysql"
+		dbDriver="jdbc"> <heartbeat>select user()</heartbeat> <writeHost host="hostM1"
+		url="jdbc:mysql://localhost:3306" user="root" password="123456"> </writeHost>
+		</dataHost> -->
+</mycat:schema>
