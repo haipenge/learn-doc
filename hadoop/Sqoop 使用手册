@@ -1,0 +1,34 @@
+Sqoop 使用手册
+
+1).列出mysql数据库中的所有数据库命令
+  #  sqoop list-databases --connect jdbc:mysql://localhost:3306/ --username root --password 123456
+
+2).连接mysql并列出数据库中的表命令
+   # sqoop list-tables --connect jdbc:mysql://localhost:3306/test --username root --password 123456
+   命令中的test为mysql数据库中的test数据库名称  username password分别为mysql数据库的用户密码
+
+3).将关系型数据的表结构复制到hive中
+ sqoop create-hive-table --connect jdbc:mysql://localhost:3306/test --table username --username root --password 123456 --hive-table test
+其中 --table username为mysql中的数据库test中的表   --hive-table test 为hive中新建的表名称
+
+4).从关系数据库导入文件到hive中
+sqoop import --connect jdbc:mysql://localhost:3306/test --username root --password mysql-password --table t1 --hive-import
+
+5).将hive中的表数据导入到mysql中
+
+./sqoop export --connect jdbc:mysql://localhost:3306/test --username root --password admin --table uv_info --export-dir /user/hive/warehouse/uv/dt=2011-08-03
+
+6).按库导入
+sqoop import -m 1 --connect jdbc:mysql://114.213.234.104:3306/forum_data_post_manage --username root --password 112233 --table comments_kun --hive-import --hive-database qianyang --hive-overwrite --create-hive-table --hive-table comments --delete-target-dir
+
+7).使用复杂SQL导入
+
+#从MySQL导入数据到Hive
+[hdfs@node196 bin]$ sqoop eval --connect jdbc:mysql://192.168.180.11/angel --username anqi --password anqi_mima \
+--query "SELECT xi.*, jing.name,wang.latitude,wang.longitude \
+FROM xi ,jing, wang \
+WHERE xi.id=jing.foreignId AND wang.id=xi.id AND xi.date>='2015-09-01' AND xi.date<='2015-10-01' \
+AND \$CONDITIONS" \
+--split-by date --hive-import -m 5 \
+--target-dir /user/hive/warehouse/anqi_wang \
+--hive-table anqi_wang

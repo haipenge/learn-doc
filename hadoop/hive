@@ -1,0 +1,49 @@
+1.Build Hive for hadoop 
+  git clone https://git-wip-up.apache.org/repos/asf/hive.git
+  cd hive
+  mvn clean package -Pdist
+  Note:build hive support hadoop 2.x
+  mvn clean package -Phadoop-2,dist
+
+2.配置Hive
+ $ $HADOOP_HOME/bin/hadoop fs -mkdir       /tmp
+ $ $HADOOP_HOME/bin/hadoop fs -mkdir       /user/hive/warehouse
+ $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp
+ $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
+
+ 如果要使用不同的hive仓库目录
+ 保持以上目录与hive-default.xml hive.metastore.warehouse.dir 一致
+
+ 3.Run Hive 
+   1).Run hive cli:
+     $HIVE_HOME/bin/hive
+   2).Run HiveServer2 and Beeline
+     $HIVE_HOME/hive --service metastore
+    <db type> derby
+    $HIVE_HOME/bin/schematool -dbType <db type> -initSchema
+    Exam:
+    $HIVE_HOME/bin/schematool -dbType derby -initSchema
+    $HIVE_HOME/bin/schematoll -dbType mysql -info
+
+    3).Run HieveServer1 and beeline form shell:
+      $HIVE_HOME/bin/hiveserver2  
+      $HIVE_HOME/bin/beeline -u jdbc:hive2://$HS2_HOST:$HS2_PORT
+
+         Default Jdbc url for hiveserver2 is:
+            jdbc:hive2://localhost:10000
+         Exam:$HIVE_HOME/bin/beeline -u jdbc:hive2://
+    4).Run HCatalog
+       $HIVE_HOME/hcatalog/sbin/hcat_server.sh
+       Use:$HIVE_HOME/hcatalog/bin/hcat
+
+       Run WebHCat
+         $HIVE_HOME/hcatalog/sbin/webhcat_server.sh
+ 4.Runtime Config
+    使用map reduce进行数据处理
+    beeline>SET  mapred.job.tracker=hd1.aspire.com.cn:50030;
+    beeline>SET -v;
+ 5.Create table
+    hive>create table invites(foo INT,bar STRING) PARTITIONED BY (ds STRING);
+ 6.Show tables
+    hive>show tables;
+    hive>show tables '.*s';

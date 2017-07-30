@@ -1,0 +1,24 @@
+Disk 操作
+1.动态扩展磁盘分区：
+  1).查看分区：
+     vgs
+  2).# lvextend -L +5G  /dev/mapper/VolGroup-lv_root
+     # lvextend -l +30%FREE /dev/mapper/VolGroup-lv_root
+  3).重新定义分区大小
+     #resize2fs /dev/mapper/VolGroup-lv_root
+
+  exam:
+    lvextend -L +6.56T /dev/mapper/VolGroup-LogVol01
+    resize2fs /dev/mapper/VolGroup-LogVol01
+
+    lvextend -L +6.6T /dev/mapper/VolGroup-LogVol02
+    resize2fs /dev/mapper/VolGroup-LogVol02
+
+   lvextend -L +223G /dev/mapper/vg_yzjyy2-LogVol02
+
+   resize2fs /dev/mapper/vg_yzjyy2-LogVol02
+
+
+   lvextend -L +1T /dev/mapper/VolGroup-LogVol02
+
+   resize2fs /dev/mapper/VolGroup-LogVol02

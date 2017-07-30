@@ -1,0 +1,35 @@
+<table name="audit_count" dateNode="dn3"/>
+<table name="check_stat" dateNode="dn3"/>
+<table name="check_stat_msg" dateNode="dn3"/>
+<table name="delivery_all_count" dateNode="dn3"/>
+<table name="delivery_month_anjian" dateNode="dn3"/>
+<table name="express_delivery_status" dateNode="dn3"  rule="express_deliver_rule"/>
+<table name="express_delivery_status_count_temp" dateNode="dn3"  rule="express_deliver_rule"/>
+<table name="express_delivery_status_firstfacecount_temp dataNode="dn3"  rule="express_deliver_rule"/>
+<table name="express_delivery_status_interface" dateNode="dn3"  rule="express_deliver_rule"/>
+<table name="first_face_userdiv" dateNode="dn3"/>
+<table name="first_face_userdiv_time" dateNode="dn3"/>
+<table name="indivuseractive_count" dateNode="dn3"/>
+<table name="indivuseractive_count_city" dateNode="dn3"/>
+<table name="indivuseractive_count_county" dateNode="dn3"  rule="express_deliver_time_rule"/>
+<table name="indivuseractive_count_exp" dateNode="dn3"/>
+<table name="indivuseractive_count_expcity" dateNode="dn3"/>
+<table name="indivuseractive_count_expcounty" dateNode="dn3"  rule="express_deliver_time_rule"/>
+<table name="indivuseractive_count_expprovince" dateNode="dn3"/>
+<table name="indivuseractive_count_province" dateNode="dn3"/>
+<table name="indivuseractive_count_time" dateNode="dn3"/>
+<table name="new_user_stat" dateNode="dn3"/>
+<table name="newuser_stat_msg" dateNode="dn3"/>
+<table name="useractive_count" dateNode="dn3"/>
+<table name="useractive_count_city" dateNode="dn3"/>
+<table name="useractive_count_county" dateNode="dn3"  rule="express_deliver_time_rule"/>
+<table name="useractive_count_exp" dateNode="dn3"/>
+<table name="useractive_count_expcity" dateNode="dn3"/>
+<table name="useractive_count_expcounty" dateNode="dn3"  rule="express_deliver_time_rule"/>
+<table name="useractive_count_expprovince" dateNode="dn3"/>
+<table name="useractive_count_province" dateNode="dn3"/>
+<table name="useractive_count_time" dateNode="dn3"/>
+<table name="usercheck_count" dateNode="dn3" rule="express_deliver_time_rule"/>
+<table name="usercheck_count_time" dateNode="dn3"/>
+<table name="usercheck_count_xieyi" dateNode="dn3"  rule="express_deliver_time_rule"/>
+<table name="userfacecheck_count" dateNode="dn3"  rule="express_deliver_time_rule"/>

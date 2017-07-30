@@ -1,0 +1,61 @@
+#Master - Slave
+
+ CHANGE MASTER TO \
+         MASTER_HOST='10.11.100.156',\
+         MASTER_USER='rep01', \
+         MASTER_PASSWORD='rep01',\
+         MASTER_PORT=13306,\
+         MASTER_LOG_FILE='mysql-bin.000001',\
+         MASTER_LOG_POS=151,\
+         MASTER_CONNECT_RETRY=10;
+
+
+  CHANGE MASTER TO \
+         MASTER_HOST='10.12.12.141',\
+         MASTER_USER='rep01', \
+         MASTER_PASSWORD='rep01',\
+         MASTER_PORT=13306,\
+         MASTER_LOG_FILE='mysql-bin.000001',\
+         MASTER_LOG_POS=151,\
+         MASTER_CONNECT_RETRY=10;
+
+
+
+  CHANGE MASTER TO \
+         MASTER_HOST='10.12.12.142',\
+         MASTER_USER='rep01', \
+         MASTER_PASSWORD='rep01',\
+         MASTER_PORT=13306,\
+         MASTER_LOG_FILE='mysql-bin.000001',\
+         MASTER_LOG_POS=151,\
+         MASTER_CONNECT_RETRY=10;
+
+
+
+mysql-bin.000059
+
+
+CHANGE MASTER TO \
+         MASTER_HOST='10.11.100.156',\
+         MASTER_USER='rep01', \
+         MASTER_PASSWORD='rep01',\
+         MASTER_PORT=13306,\
+         MASTER_LOG_FILE='mysql-bin.000059',\
+         MASTER_LOG_POS=4,\
+         MASTER_CONNECT_RETRY=30;
+
+
+
+mysql-bin.000001 |      151 
+
+常用命令：
+master端：
+show master status;—查看状态：
+show processlist; –查看slave下MySQL进程信息
+reset master; #慎用，将清空日志及同步position
+slave端：
+CHANGE MASTER TO MASTER_LOG_FILE=’master.000019′;
+show slave status;
+show slave logs;
+show processlist;
+reset slave; #慎用，将清空slave配置信息、日志及同步position

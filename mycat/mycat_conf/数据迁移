@@ -1,0 +1,401 @@
+连接命令：
+mysql -uprnp -pprnp -h 10.11.100.156 -P18066 --local-infile=1
+
+注：-local-infile参数是为了使用txt文件导入数据加入
+
+CREATE TABLE `express_delivery_status` (
+  `exp_org_code` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `user_type` varchar(1) NOT NULL DEFAULT '1' COMMENT '用户类型，1个人用户，2机构用户',
+  `bill_number` varchar(35) NOT NULL COMMENT '快递单号',
+  `id_pseude_code` varchar(128) DEFAULT NULL COMMENT '个人用户实名身份伪码',
+  `user_id` varchar(16) NOT NULL DEFAULT '' COMMENT '个人用户序列号',
+  `org_code` varchar(10) NOT NULL DEFAULT '' COMMENT '机构用户企业代码',
+  `social_code` varchar(20) NOT NULL DEFAULT '' COMMENT '机构用户统一社会信用代码',
+  `staff_code` varchar(16) NOT NULL COMMENT '收派员编号',
+  `check_date` datetime NOT NULL COMMENT '查验时间 YYYY-MM-DD HH:mm:ss',
+  `check_method` varchar(2) NOT NULL COMMENT '查验方式，01首次面验，02凭证二维码，03短信验证码，04微信验证码，05有效身份证，06身份证识别设备，07NFC+SAM，08OCR识别，99协议客户',
+  `province` varchar(32) NOT NULL COMMENT '省',
+  `city` varchar(32) NOT NULL COMMENT '市',
+  `county` varchar(32) NOT NULL COMMENT '区县',
+  `IsReported` varchar(2) DEFAULT NULL COMMENT '是否已上报:0：未上报 1：已上报',
+  `UserIDType` varchar(2) DEFAULT NULL COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(35) DEFAULT NULL COMMENT '有效身份证件号码',
+  `createDate` datetime NOT NULL DEFAULT '1980-01-01 00:00:00' COMMENT '创建时间',
+  `TaxRegNo` varchar(30) NOT NULL DEFAULT '' COMMENT '税务登记证号',
+  `IsPublic` varchar(20) NOT NULL DEFAULT 'normal' COMMENT '公共版数据类型,默认值为normal',
+  `UserUnifiedId` varchar(128) DEFAULT NULL COMMENT '用户统一标识',
+  `UserCardValidityStartDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期开始时间',
+  `UserCardValidityEndDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期结束时间',
+  `StaffUnifiedId` varchar(128) DEFAULT NULL COMMENT '收派员统一标识',
+  `StaffCardType` varchar(2) DEFAULT NULL COMMENT '收派员有效身份证件类型',
+  `StaffCardID` varchar(35) DEFAULT NULL COMMENT '收派员有效身份证件号码',
+  `StaffCardValidityStartDate` varchar(8) DEFAULT NULL COMMENT '收派员有效身份证件有效期开始时间',
+  `StaffCardValidityEndDate` varchar(8) DEFAULT NULL COMMENT '收派员有效身份证件有效期结束时间',
+  `Street` varchar(256) DEFAULT '' COMMENT '详细地址',
+  `SenderLatLng` varchar(31) DEFAULT '' COMMENT '寄件行为发生地的GPS经纬度',
+  `InternalsType` varchar(2) DEFAULT '' COMMENT '内件类型',
+  `InternalsName` varchar(32) DEFAULT '' COMMENT '内件名称',
+  `InternalsAmount` int(8) DEFAULT NULL COMMENT '内件数量',
+  `ReceiverPhone` varchar(32) DEFAULT '' COMMENT '收件人联系电话',
+  `check_date_sign` bigint(20) DEFAULT '0' COMMENT '查验时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='快件状态信息查验记录';
+
+
+
+
+#express_deliver_status
+-------------------------------------------------------------------------------------------------
+select * from express_delivery_status  into  outfile '/var/lib/mysql-files/express_delivery_status_2017073010.txt'   fields terminated by ','  enclosed by '"' lines terminated by '\r\n';
+
+load data local infile '/var/lib/mysql-files/express_delivery_status_2017073010.txt' into table character set utf8  express_delivery_status  fields terminated by ',' enclosed by '"'  lines terminated by '\r\n'  (exp_org_code,user_type,bill_number,id_pseude_code,user_id,org_code,social_code,staff_code,check_date,check_method,province,city,county,IsReported,UserIDType,UserIDNo,createDate,TaxRegNo,IsPublic,UserUnifiedId,UserCardValidityStartDate,UserCardValidityEndDate,StaffUnifiedId,StaffCardType,StaffCardID,StaffCardValidityStartDate,StaffCardValidityEndDate,Street,SenderLatLng,InternalsType,InternalsName,InternalsAmount,ReceiverPhone,check_date_sign);
+
+#express_deliver_status_interface
+
+CREATE TABLE `express_delivery_status_interface` (
+  `exp_org_code` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `user_type` varchar(1) NOT NULL DEFAULT '1' COMMENT '用户类型，1个人用户，2机构用户',
+  `bill_number` varchar(35) NOT NULL COMMENT '快递单号',
+  `id_pseude_code` varchar(128) DEFAULT NULL COMMENT '个人用户实名身份伪码',
+  `user_id` varchar(16) NOT NULL DEFAULT '' COMMENT '个人用户序列号',
+  `org_code` varchar(10) NOT NULL DEFAULT '' COMMENT '机构用户企业代码',
+  `social_code` varchar(20) NOT NULL DEFAULT '' COMMENT '机构用户统一社会信用代码',
+  `staff_code` varchar(16) NOT NULL COMMENT '收派员编号',
+  `check_date` varchar(14) NOT NULL COMMENT '查验时间 YYYYMMDDHHmmss',
+  `check_method` varchar(2) NOT NULL COMMENT '查验方式，01首次面验，02凭证二维码，03短信验证码，04微信验证码，05有效身份证，06身份证识别设备，07NFC+SAM，08OCR识别，99协议客户',
+  `province` varchar(32) NOT NULL COMMENT '省',
+  `city` varchar(32) NOT NULL COMMENT '市',
+  `county` varchar(32) NOT NULL COMMENT '区县',
+  `IsReported` varchar(2) DEFAULT NULL COMMENT '是否已上报:0：未上报 1：已上报',
+  `UserIDType` varchar(2) DEFAULT NULL COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(35) DEFAULT NULL COMMENT '有效身份证件号码',
+  `createDate` datetime NOT NULL DEFAULT '1980-01-01 00:00:00' COMMENT '创建时间',
+  `TaxRegNo` varchar(30) NOT NULL DEFAULT '' COMMENT '税务登记证号',
+  `IsPublic` varchar(20) NOT NULL DEFAULT 'normal' COMMENT '公共版数据类型,默认值为normal',
+  `UserUnifiedId` varchar(128) DEFAULT NULL COMMENT '用户统一标识',
+  `UserCardValidityStartDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期开始时间',
+  `UserCardValidityEndDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期结束时间',
+  `StaffUnifiedId` varchar(128) DEFAULT NULL COMMENT '收派员统一标识',
+  `StaffCardType` varchar(2) DEFAULT NULL COMMENT '收派员有效身份证件类型',
+  `StaffCardID` varchar(35) DEFAULT NULL COMMENT '收派员有效身份证件号码',
+  `StaffCardValidityStartDate` varchar(8) DEFAULT NULL COMMENT '收派员有效身份证件有效期开始时间',
+  `StaffCardValidityEndDate` varchar(8) DEFAULT NULL COMMENT '收派员有效身份证件有效期结束时间',
+  `Street` varchar(256) DEFAULT '' COMMENT '详细地址',
+  `SenderLatLng` varchar(31) DEFAULT '' COMMENT '寄件行为发生地的GPS经纬度',
+  `InternalsType` varchar(2) DEFAULT '' COMMENT '内件类型',
+  `InternalsName` varchar(32) DEFAULT '' COMMENT '内件名称',
+  `InternalsAmount` int(8) DEFAULT NULL COMMENT '内件数量',
+  `ReceiverPhone` varchar(32) DEFAULT '' COMMENT '收件人联系电话',
+  `check_date_sign` bigint(20) DEFAULT '0' COMMENT '查验时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='快件状态信息查验记录';
+
+
+#express_delivery_status_interface
+-------------------------------------------------------------------------------------------------
+select * from express_delivery_status_interface  into  outfile '/var/lib/mysql-files/express_delivery_status_interface_2017073010.txt'   fields terminated by ','  enclosed by '"' lines terminated by '\r\n';
+
+load data local infile '/var/lib/mysql-files/express_delivery_status_interface_2017073010.txt' into table character set utf8  express_delivery_status_interface  fields terminated by ',' enclosed by '"'  lines terminated by '\r\n' (exp_org_code,user_type,bill_number,id_pseude_code,user_id,org_code,social_code,staff_code,check_date,check_method,province,city,county,IsReported,UserIDType,UserIDNo,createDate,TaxRegNo,IsPublic,UserUnifiedId,UserCardValidityStartDate,UserCardValidityEndDate,StaffUnifiedId,StaffCardType,StaffCardID,StaffCardValidityStartDate,StaffCardValidityEndDate,Street,SenderLatLng,InternalsType,InternalsName,InternalsAmount,ReceiverPhone,check_date_sign);
+
+mysqldump -uroot -p  -c --skip-add-locks nuc express_delivery_status_interface > /opt/data/bak/express_delivery_status_interface_20170730.sql
+
+
+mysqldump -uroot -p  -c --skip-add-locks nuc express_delivery_status > /opt/data/bak/express_delivery_status_20170730.sql
+
+mysqldump -uroot -p  -c --skip-add-locks nuc express_delivery_status --where=" check_date >='2017-07-01 00:00:00' and check_date <='2017-07-31 23:59:59'" > /opt/data/bak/express_delivery_status_20170701-20170730.sql
+
+
+
+--first_face_userdiv
+
+CREATE TABLE `first_face_userdiv` (
+  `UserSeq` varchar(16) NOT NULL COMMENT '用户序列号',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `Province` varchar(32) DEFAULT NULL COMMENT '省',
+  `City` varchar(32) DEFAULT NULL COMMENT '市',
+  `Country` varchar(32) DEFAULT NULL COMMENT '县区',
+  `CheckType` varchar(4) NOT NULL DEFAULT '00' COMMENT '面验类型',
+  `CheckTime` datetime NOT NULL COMMENT '查验时间 YYYY-MM-DD HH:mm:ss',
+  `CreateTime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `IsReported` varchar(2) NOT NULL DEFAULT '0' COMMENT '是否已上报:0：未上报 1：已上报'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='首次面验用户信息中间表';
+
+--first_face_userdiv_time
+CREATE TABLE `first_face_userdiv_time` (
+  `time` varchar(20) NOT NULL DEFAULT '' COMMENT '首次面验-中间表统计时间表',
+  PRIMARY KEY (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--indiv_addrs
+
+CREATE TABLE `indiv_addrs` (
+  `UserIDType` varchar(2) DEFAULT NULL COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(128) DEFAULT NULL COMMENT '有效身份证件号码',
+  `Type` int(1) DEFAULT NULL COMMENT '地址类型.1：证件地址;2：常用地址',
+  `Province` varchar(32) DEFAULT NULL COMMENT '省',
+  `City` varchar(32) DEFAULT NULL COMMENT '市',
+  `County` varchar(32) DEFAULT NULL COMMENT '县',
+  `DetailAddr` varchar(256) DEFAULT NULL COMMENT '详细地址',
+  `UserIDNodesc` varchar(128) DEFAULT NULL COMMENT '有效身份证件号码临时字段'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户地址信息';
+
+
+--indiv_addrs_his
+
+CREATE TABLE `indiv_addrs_his` (
+  `UserIDType` varchar(2) DEFAULT NULL COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(35) DEFAULT NULL COMMENT '有效身份证件号码',
+  `Type` int(1) DEFAULT NULL COMMENT '地址类型.1：证件地址;2：常用地址',
+  `Province` varchar(32) DEFAULT NULL COMMENT '省',
+  `City` varchar(32) DEFAULT NULL COMMENT '市',
+  `County` varchar(32) DEFAULT NULL COMMENT '县',
+  `DetailAddr` varchar(256) DEFAULT NULL COMMENT '详细地址',
+  `OprTime` varchar(20) DEFAULT NULL COMMENT '操作时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户实名身份信息'
+
+--indiv_except
+CREATE TABLE `indiv_except` (
+  `ExpOrgCode` varchar(32) DEFAULT NULL COMMENT '寄递企业代码',
+  `PostalDeptCode` varchar(10) DEFAULT NULL COMMENT '邮政管理部门代码',
+  `UserSeq` varchar(16) DEFAULT NULL COMMENT '用户序列号',
+  `IDPseudeCode` varchar(128) DEFAULT NULL COMMENT '实名身份伪码',
+  `UnusualEvent` varchar(500) DEFAULT NULL COMMENT '异常事件',
+  `SecurityLevel` varchar(2) DEFAULT NULL COMMENT '安全风险级别',
+  `Status` varchar(2) DEFAULT NULL COMMENT '状态。0：未处理；1：已审批；2：已下发',
+  `AuditMessage` varchar(200) DEFAULT NULL COMMENT '审核意见',
+  `OprDate` varchar(20) DEFAULT NULL COMMENT '记录插入的时间',
+  `UserCardType` varchar(2) DEFAULT NULL COMMENT '用户有效身份证件类型',
+  `UserCardID` varchar(35) DEFAULT NULL COMMENT '用户有效身份证件号码'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='个人用户异常事件信息';
+
+
+--indiv_mobils
+CREATE TABLE `indiv_mobils` (
+  `UserIDType` varchar(2) NOT NULL COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(128) NOT NULL COMMENT '有效身份证件号码',
+  `MobilePhone` varchar(128) NOT NULL COMMENT '移动电话',
+  `UserIDNodesc` varchar(128) DEFAULT NULL COMMENT '有效身份证件号码临时字段',
+  `MobilePhonedesc` varchar(128) DEFAULT NULL COMMENT '移动电话临时字段'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户移动电话信息';
+
+--indiv_mobils_his
+CREATE TABLE `indiv_mobils_his` (
+  `UserIDType` varchar(2) DEFAULT NULL COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(35) DEFAULT NULL COMMENT '有效身份证件号码',
+  `UserName` varchar(32) DEFAULT NULL COMMENT '姓名',
+  `MobilePhone` varchar(32) DEFAULT NULL COMMENT '移动电话',
+  `OprTime` varchar(20) DEFAULT NULL COMMENT '操作时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户实名身份信息';
+
+--indivuser
+CREATE TABLE `indivuser` (
+  `UserIDType` varchar(2) NOT NULL DEFAULT '' COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(128) NOT NULL DEFAULT '' COMMENT '有效身份证件号码',
+  `ExpOrgCode` varchar(1024) DEFAULT NULL COMMENT '寄递企业代码',
+  `UserName` varchar(100) DEFAULT NULL COMMENT '姓名',
+  `Gender` varchar(10) DEFAULT NULL COMMENT '性别',
+  `Telephone` varchar(100) DEFAULT NULL COMMENT '固定电话',
+  `Wechat` varchar(100) DEFAULT NULL COMMENT '微信号',
+  `SecurityLevel` varchar(2) DEFAULT NULL COMMENT '安全风险级别',
+  `UserType` varchar(300) DEFAULT NULL COMMENT '用户类别',
+  `UserPseudoCode` varchar(128) DEFAULT NULL COMMENT '实名身份伪码',
+  `CollectMethod` varchar(100) DEFAULT NULL COMMENT '用户信息采集方式',
+  `CreateTime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `UserCardValidityStartDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期开始时间',
+  `UserCardValidityEndDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期开始时间',
+  `Status` varchar(2) DEFAULT NULL COMMENT '状态  10：正常 20：解除协议   用户类型为1时填空，为2时必填',
+  `UserIDNodesc` varchar(128) NOT NULL DEFAULT '' COMMENT '有效身份证件号码临时字段'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户实名身份信息';
+
+--indivuser_cache
+CREATE TABLE `indivuser_cache` (
+  `UserSeq` varchar(16) NOT NULL COMMENT '用户序列号',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `PostalDeptCode` varchar(10) DEFAULT NULL COMMENT '邮政管理部门代码',
+  `ProcId` varchar(34) DEFAULT NULL COMMENT '记录流水号',
+  `UserName` varchar(32) DEFAULT NULL COMMENT '姓名',
+  `Gender` varchar(1) DEFAULT NULL COMMENT '性别',
+  `UserIDType` varchar(2) DEFAULT NULL COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(35) DEFAULT NULL COMMENT '有效身份证件号码',
+  `Telephone` varchar(32) DEFAULT NULL COMMENT '固定电话',
+  `Wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
+  `SecurityLevel` varchar(2) DEFAULT NULL COMMENT '安全风险级别',
+  `UserType` varchar(5) DEFAULT NULL COMMENT '用户类别',
+  `PseudoFlag` varchar(1) DEFAULT '1' COMMENT '是否需要生成伪码。0：不需要；1：需要。',
+  `UserPseudoCode` varchar(128) DEFAULT NULL COMMENT '实名身份伪码',
+  `CollectMethod` varchar(4) DEFAULT NULL COMMENT '采集方式',
+  `CreateTime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `UserUnifiedId` varchar(128) DEFAULT NULL COMMENT '用户统一标识',
+  `UserCardValidityStartDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期开始时间',
+  `UserCardValidityEndDate` varchar(8) DEFAULT NULL COMMENT '用户有效身份证件有效期开始时间',
+  `Status` varchar(2) DEFAULT NULL COMMENT '状态  10：正常 20：解除协议   用户类型为1时填空，为2时必填'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='寄递用户实名身份信息缓存表';
+
+--indivuser_his
+CREATE TABLE `indivuser_his` (
+  `UserIDType` varchar(2) NOT NULL DEFAULT '' COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(35) NOT NULL DEFAULT '' COMMENT '有效身份证件号码',
+  `UserName` varchar(32) DEFAULT NULL COMMENT '姓名',
+  `Gender` varchar(1) DEFAULT NULL COMMENT '性别',
+  `Telephone` varchar(32) DEFAULT NULL COMMENT '固定电话',
+  `Wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
+  `SecurityLevel` varchar(2) DEFAULT NULL COMMENT '安全风险级别',
+  `UserType` varchar(5) DEFAULT NULL COMMENT '用户类别',
+  `UserPseudoCode` varchar(128) DEFAULT NULL COMMENT '实名身份伪码',
+  `CreateTime` varchar(20) DEFAULT NULL COMMENT '创建时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户实名身份信息';
+
+--indivuser_interface
+CREATE TABLE `indivuser_interface` (
+  `MessageNo` text COMMENT '报文流水号',
+  `ExpOrgCode` varchar(32) DEFAULT NULL COMMENT '寄递企业代码',
+  `ReqMsg` longtext COMMENT '上报个人用户请求消息报文',
+  `status` varchar(2) DEFAULT NULL COMMENT '状态',
+  `OprDate` varchar(20) DEFAULT NULL COMMENT '记录插入的时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='个人用户消息上报接口表';
+
+
+--indivuser_time_addr
+CREATE TABLE `indivuser_time_addr` (
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `UserType` varchar(5) DEFAULT NULL COMMENT '用户类别',
+  `UserIDType` varchar(2) NOT NULL DEFAULT '' COMMENT '有效身份证件类型',
+  `UserIDNo` varchar(35) NOT NULL DEFAULT '' COMMENT '有效身份证件号码',
+  `CheckTime` varchar(20) DEFAULT '00000000000000' COMMENT '查验时间',
+  `Province` varchar(32) DEFAULT '000000' COMMENT '省',
+  `City` varchar(32) DEFAULT '000000' COMMENT '市',
+  `County` varchar(32) DEFAULT '000000' COMMENT '县',
+  `UserSeq` varchar(16) NOT NULL COMMENT '用户序列号',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='实名用户查验时间查验地址表';
+
+--indivuseractive_count
+CREATE TABLE `indivuseractive_count` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码:0.全部',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型：0.全部',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表(全国)';
+
+
+
+--indivuseractive_count_city
+CREATE TABLE `indivuseractive_count_city` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码:0.全部',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型：2.市',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表（市）';
+
+--indivuseractive_count_county
+CREATE TABLE `indivuseractive_count_county` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码:0.全部',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型：3.县区',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表（县区）';
+
+--indivuseractive_count_exp
+CREATE TABLE `indivuseractive_count_exp` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表(企业，全国)';
+
+
+--indivuseractive_count_expcity
+CREATE TABLE `indivuseractive_count_expcity` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型：2.市',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表（企业、市）';
+
+--indivuseractive_count_expcounty
+CREATE TABLE `indivuseractive_count_expcounty` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型：3.县区',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表（企业、县区）';
+
+--indivuseractive_count_expprovince
+CREATE TABLE `indivuseractive_count_expprovince` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型：1.省',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表（企业、省）';
+
+
+--indivuseractive_count_province
+CREATE TABLE `indivuseractive_count_province` (
+  `Time` varchar(16) NOT NULL COMMENT '统计时间',
+  `ExpOrgCode` varchar(32) NOT NULL COMMENT '寄递企业代码:0.全部',
+  `AddressType` varchar(2) DEFAULT NULL COMMENT '区域类型：1.省',
+  `Address` varchar(35) DEFAULT NULL COMMENT '区域',
+  `CheckType` varchar(32) DEFAULT NULL COMMENT '查验方式：0：总数，1:已实名上报，2:未实名上报，01：散件总数，11:已实名上报散件，21:未实名上报散件，02：协议总数，12:已实名上报协议，22:未实名上报协议',
+  `Amount` varchar(20) DEFAULT NULL COMMENT '数量',
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '统计时间',
+  `IsPublic` varchar(8) NOT NULL DEFAULT 'normal' COMMENT '数据类型:企业上传normal,公共版common'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活跃用户信息统计表（省）';
+
+
+
+--interface_data_todisk
+
+CREATE TABLE `interface_data_todisk` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `interface_type` int(4) NOT NULL COMMENT '接口数据类型，3101个人用户，3102机构用户，3103收派员用户,1102快件状态',
+  `path` varchar(256) NOT NULL COMMENT '存储路径',
+  `status` int(1) NOT NULL COMMENT '处理状态',
+  `createTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `service_flag` int(2) NOT NULL COMMENT '服务标识',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44456461 DEFAULT CHARSET=utf8 COMMENT='接口信息存储记录表';
+
+--links
+CREATE TABLE `links` (
+  `LINK_ID` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT '链接ID',
+  `LINK_NAME` varchar(100) NOT NULL COMMENT '链接名称',
+  `DISP_TYPE` varchar(20) NOT NULL DEFAULT 'before' COMMENT '显示类型,登陆前(before),登陆后(after)',
+  `LINK_TYPE` varchar(20) NOT NULL DEFAULT 'commonlink' COMMENT '链接类型,commonlink,iframe',
+  `LINK_URL` varchar(200) NOT NULL COMMENT '链接URL',
+  `TARGET` varchar(30) NOT NULL DEFAULT 'self' COMMENT '链接打开方式:self,popup',
+  `SUB_SYSTEM` varchar(20) NOT NULL COMMENT '链接归属子系统',
+  `DOMAIN` varchar(20) NOT NULL COMMENT '链接归属域',
+  `NEED_RIGHT` varchar(100) DEFAULT NULL COMMENT '显示此链接需要的权限，支持三形式的权限表示：menu(menuKey, ...) role(roleKey, ...),resoper(resKey-operKey,...)分别表示权限菜单描述,权限角色描述及权限资源操作key描述.各权限间以“,”分割，表示或的关系。空表示无权限限制',
+  PRIMARY KEY (`LINK_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='链接';
+
+
+
+
+

@@ -1,0 +1,38 @@
+ Tables_in_nuc                               |
++---------------------------------------------+
+K| audit_count                                 |
+K| check_stat                                  |
+K| check_stat_msg                              |
+K| delivery_all_count                          |
+K| delivery_month_anjian                       |
+K| express_delivery_status                     |B  check_date
+K| express_delivery_status_count_temp          |B  check_date
+K| express_delivery_status_firstfacecount_temp |B  check_date
+K| express_delivery_status_interface           |B  check_date
+K| first_face_userdiv                          |
+K| first_face_userdiv_time                     |
+K| indivuseractive_count                       |
+K| indivuseractive_count_city                  |
+K| indivuseractive_count_county                |B  Time
+K| indivuseractive_count_exp                   |
+K| indivuseractive_count_expcity               |
+K| indivuseractive_count_expcounty             |B  Time
+K| indivuseractive_count_expprovince           |
+K| indivuseractive_count_province              |
+K| indivuseractive_count_time                  |
+K| new_user_stat                               |
+K| newuser_stat_msg                            |
+K| useractive_count                            |
+K| useractive_count_city                       |
+K| useractive_count_county                     |B  Time
+K| useractive_count_exp                        |
+K| useractive_count_expcity                    |
+K| useractive_count_expcounty                  |B  Time
+K| useractive_count_expprovince                |
+K| useractive_count_province                   |
+K| useractive_count_time                       |
+K| usercheck_count                             |B  Time
+K| usercheck_count_time                        |
+K| usercheck_count_xieyi                       |B  Time
+K| userfacecheck_count                         |B  Time
++---------------------------------------------+

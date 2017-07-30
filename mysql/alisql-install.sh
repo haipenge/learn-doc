@@ -51,6 +51,8 @@ mkdir data mysql
 
 
 
+
+
 关于配置disable-transparent-hugepages服务
 
 vi /etc/init.d/disable-transparent-hugepages
@@ -101,8 +103,42 @@ esac
 sudo chmod 755 /etc/init.d/disable-transparent-hugepages
 sudo chkconfig --add disable-transparent-hugepages
 
+
 重启服务器，并检查该参数是否已经生效
 # cat /sys/kernel/mm/redhat_transparent_hugepage/enabled
 always madvise [never]
 # cat /sys/kernel/mm/redhat_transparent_hugepage/defrag
 always madvise [never]
+
+
+To disable THP, do the following:
+
+Remount the /sys directory as read-write:
+
+$ sudo mount -o rw,remount /sys
+
+As root, change permissions as follows. Be sure to replace transparent_hugepage with the value for your system.
+
+$ chmod o+w /sys/kernel/mm/transparent_hugepage/enabled
+
+$ chmod o+w /sys/kernel/mm/transparent_hugepage/defrag
+
+As root, run the following commands. Be sure to replace transparent_hugepage with the value for your system.
+
+$ echo madvise > /sys/kernel/mm/transparent_hugepage/enabled
+
+$ echo madvise > /sys/kernel/mm/transparent_hugepage/defrag
+
+
+#解决Innodb 问题
+1).
+drop table if exists innodb_index_stats; \
+drop table if exists innodb_table_stats; \
+drop table if exists slave_master_info; \
+drop table if exists slave_relay_log_info; \
+drop table if exists slave_worker_info;
+2).
+删除上面5个表所对应的idb文件
+3).
+
+./scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf --basedir=/opt/alisql --datadir=/app/data/alisql/data3306/data
