@@ -49,6 +49,10 @@ select * from express_delivery_status  into  outfile '/var/lib/mysql-files/expre
 
 load data local infile '/var/lib/mysql-files/express_delivery_status_2017073010.txt' into table character set utf8  express_delivery_status  fields terminated by ',' enclosed by '"'  lines terminated by '\r\n'  (exp_org_code,user_type,bill_number,id_pseude_code,user_id,org_code,social_code,staff_code,check_date,check_method,province,city,county,IsReported,UserIDType,UserIDNo,createDate,TaxRegNo,IsPublic,UserUnifiedId,UserCardValidityStartDate,UserCardValidityEndDate,StaffUnifiedId,StaffCardType,StaffCardID,StaffCardValidityStartDate,StaffCardValidityEndDate,Street,SenderLatLng,InternalsType,InternalsName,InternalsAmount,ReceiverPhone,check_date_sign);
 
+
+select * from express_delivery_status  into  outfile '/var/lib/mysql-files/express_delivery_status_20170715-0730.txt'   fields terminated by ','  enclosed by '"' lines terminated by '\r\n';
+
+
 #express_deliver_status_interface
 
 CREATE TABLE `express_delivery_status_interface` (
