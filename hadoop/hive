@@ -11,10 +11,7 @@
  $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp
  $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> local
+
  如果要使用不同的hive仓库目录
  保持以上目录与hive-default.xml hive.metastore.warehouse.dir 一致
 
@@ -28,6 +25,7 @@
     Exam:
     $HIVE_HOME/bin/schematool -dbType derby -initSchema
     $HIVE_HOME/bin/schematoll -dbType mysql -info
+    schematoll -dbType mysql -initSchema
 
     3).Run HieveServer1 and beeline form shell:
       $HIVE_HOME/bin/hiveserver2  
@@ -44,15 +42,14 @@
          $HIVE_HOME/hcatalog/sbin/webhcat_server.sh
  4.Runtime Config
     使用map reduce进行数据处理
-    beeline>SET  mapred.job.tracker=hd1.aspire.com.cn:50030;
+    beeline>SET  mapred.job.tracker=localhost:50030;
     beeline>SET -v;
  5.Create table
     hive>create table invites(foo INT,bar STRING) PARTITIONED BY (ds STRING);
  6.Show tables
     hive>show tables;
     hive>show tables '.*s';
-<<<<<<< HEAD
-=======
+
 $HIVE_HOME/bin/schematool -dbType derby -initSchema
 
 1).Start hive as service
@@ -67,6 +64,4 @@ hive --service metastore &
  add to $JAVA_HOME/jre/lib/security/java.security
 
  permission java.util.PropertyPermission "*", "read,write";
->>>>>>> 09921b402328c133165a8644ca50f8e76134b2d8
-=======
->>>>>>> local
+

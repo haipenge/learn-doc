@@ -1,0 +1,29 @@
+basic
+
+1.create table
+  $>create 'test', 'cf'
+    create 'table_name','clumn_family'
+
+2.list information of table
+  $>list 'test'
+     list 'table_name'
+
+3.put data into table
+  $>put 'test', 'row1', 'cf:a', 'value1'
+  $>put 'test', 'row2', 'cf:a', 'value2'
+  $>put 'test', 'row3', 'cf:a', 'value3'
+
+5.scan table for all data at once.
+  >scan 'test'
+
+6.get a single row of data
+ $>get 'test','row1'
+
+7.disable or enable a table
+ $>disable 'test'
+ $>enable 'test'
+8.drop a table
+ $drop 'test'
+
+9.start hbase as backed process
+ $>./bin/local-master-backup.sh 2 3 5
