@@ -217,7 +217,7 @@
 			  writeType="0" dbType="mysql" dbDriver="native">
 		<heartbeat>select user()</heartbeat>
 		<!-- can have multi write hosts -->
-		<writeHost host="m0" url="10.11.100.39:3306" user="prnp"
+		<writeHost host="m0" url="10.12.12.140:3306" user="prnp"
 				   password="prnp">
 			<!-- can have multi read hosts -->
                         <!--
@@ -233,7 +233,7 @@
 			  writeType="0" dbType="mysql" dbDriver="native">
 		<heartbeat>select user()</heartbeat>
 		<!-- can have multi write hosts -->
-		<writeHost host="m0" url="10.11.100.40:3306" user="prnp"
+		<writeHost host="m0" url="10.12.12.141:3306" user="prnp"
 				   password="prnp">
 			<!-- can have multi read hosts -->
                         <!--
@@ -249,7 +249,7 @@
 			  writeType="0" dbType="mysql" dbDriver="native">
 		<heartbeat>select user()</heartbeat>
 		<!-- can have multi write hosts -->
-		<writeHost host="m0" url="10.11.100.41:3306" user="prnp"
+		<writeHost host="m0" url="10.12.12.142:3306" user="prnp"
 				   password="prnp">
 			<!-- can have multi read hosts -->
                         <!--
@@ -265,7 +265,7 @@
 			  writeType="0" dbType="mysql" dbDriver="native">
 		<heartbeat>select user()</heartbeat>
 		<!-- can have multi write hosts -->
-		<writeHost host="m0" url="10.11.100.42:3306" user="prnp"
+		<writeHost host="m0" url="10.12.12.143:3306" user="prnp"
 				   password="prnp">
 			<!-- can have multi read hosts -->
                         <!--
