@@ -23,7 +23,9 @@ CREATE USER 'x_smart'@'%' IDENTIFIED BY 'xsmart%^&$#12%^';
 
 授权:
 
-GRANT ALL ON *.* TO 'pig'@'%';
+CREATE USER 'prnp'@'%' IDENTIFIED BY 'prnp'; 
+
+GRANT ALL ON *.* TO 'prnp'@'%';
 
 GRANT ALL ON x_smart.* TO 'x_smart'@'%';
 GRANT ALL ON test_x_smart.* TO 'test_x_smart'@'%'
@@ -58,6 +60,17 @@ mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-se
 导出指定库到本地的目录(例如mysql库)
 mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --databases mysql > db.sql
 
+mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 
+-c --skip-add-locks --databases mysql > db.sql
+
+Exam:
+mysqldump -uroot -p  -c --skip-add-locks nuc ec_indivuser  > /opt/data/bak/ec_indivuser_20070802.sql
+
+导出库不带删除表语句
+
+mysqldump -uroot -proot  -c --skip-add-locks --skip-add-drop-table dbs584 useractive_count_province --where=" time='2017-08-07'" > /opt/data/bak/20170806/807/useractive_count_province_mycat_to_mysql_20170807.sql
+
+
 导出某个库的表到本地的目录(例如mysql库的user表)
 mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --tables mysql user> db.table.sql
 
@@ -75,10 +88,17 @@ mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8 --skip-c
 登录MySQL,将默认的制表符换成逗号.(适应csv格式文件).
 指定的路径,mysql要有写的权限.最好用tmp目录,文件用完之后,再删除!
 SELECT user,host,password FROM mysql.user INTO OUTFILE '/tmp/mysql_user.csv' FIELDS TERMINATED BY ',';
-导入
 恢复全库数据到MySQL,因为包含mysql库的权限表,导入完成需要执行FLUSH PRIVILEGES;命令
+
+导入
+注：导入数据库前，执行
+set foreign_key_checks=0;
+关闭外键检测
+
 第一种方法:
-mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8 < db.all.sql
+mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 -f --default-character-set=utf8 < db.all.sql
+
+-f:有错误继续导入
 
 第二种方法:
 登录MySQL,执行source命令,后面的文件名要用绝对路径.
