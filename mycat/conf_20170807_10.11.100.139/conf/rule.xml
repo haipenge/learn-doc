@@ -15,7 +15,7 @@
 			<algorithm>func1</algorithm>
 		</rule>
 	</tableRule>
-	
+
 	<tableRule name="rule2">
 		<rule>
 			<columns>user_id</columns>
@@ -82,7 +82,7 @@
 
 	<tableRule name="express_delivery_status_user_id_sharding_rule">
       <rule>
-         <columns>exp_org_code,user_id</columns>
+         <columns>user_sign</columns>
          <algorithm>murmur</algorithm>
       </rule>
 	</tableRule>
@@ -107,7 +107,7 @@
 	</tableRule>
 	<tableRule name="ec_indivuser_rule">
        <rule>
-       	 <columns>ExpOrgCode,UserSeq</columns>
+       	 <columns>ExpOrgCode</columns>
          <algorithm>murmur</algorithm>
        </rule>
 	</tableRule>

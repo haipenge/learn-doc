@@ -1,0 +1,16 @@
+1.解决centos7下nginx无法访问
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --zone=trusted --add-port=7092/tcp
+firewall-cmd --zone=public --add-port=7092/tcp --permanent
+
+查看全部已开放端口：
+firewall-cmd --zone=public --list-ports 
+
+
+CentOS7系统默认的防火墙服务并不是iptables喔。 
+ 
+您可以先用命令 systemctl status firewalld 来检查一下当前的防火墙状态， 
+ 
+如果是运行状态，您可以 systemctl stop firewalld 的命令来停止防火墙的服务， 
+ 
+如果确认是防火墙的问题，可以用 systemctl disable firewalld 的命令来禁止防火墙的服务。
