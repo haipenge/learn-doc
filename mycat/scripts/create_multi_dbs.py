@@ -16,7 +16,7 @@ class SchemaTools(object):
 		self.dev_servers=['10.12.12.140','10.12.12.141','10.12.12.142','10.12.12.143']
 		self.user_and_password={'user':'prnp','password':'prnp'}
 		self.dev_user_and_password={'user':'prnp','password':'prnp'}
-		self.test_user_and_password={'user':'prnp','password':'Mysql@105'}
+		self.test_user_and_password={'user':'prnp','password':'Mysql@105'} 
 	def __exec_db_cmds(self,host,user,password,dbCmd):
 		print 'user is ',user
 		cmd = 'mysql -u '+user+' -p'+password+' -h '+host+' -e "'+dbCmd+'"'
@@ -47,7 +47,7 @@ class SchemaTools(object):
 
 	#创建生产库，库名：dbs0-99,四台，每台25片
 	def __generate_db(self,user,hosts):
-		user=user['user']
+		u=user['user']
 		password=user['password']
 		for i,ip in enumerate(hosts):
 			print i,ip
@@ -55,28 +55,28 @@ class SchemaTools(object):
 			for i in db_indexs:
 				command='create database dbs'+str(i)
 				print command
-				self.__exec_db_cmds(ip,user,password,command)
+				self.__exec_db_cmds(ip,u,password,command)
 		cmd = 'create database nuc_pub;'
-		self.__exec_db_cmds(hosts[0],user,password,cmd)
+		self.__exec_db_cmds(hosts[0],u,password,cmd)
 		cmd = 'create database nuc_stat;'
-		self.__exec_db_cmds(hosts[1],user,password,cmd)
+		self.__exec_db_cmds(hosts[1],u,password,cmd)
 		cmd = 'create database nuc_indivuser;'
-		self.__exec_db_cmds(hosts[2],user,password,cmd)
+		self.__exec_db_cmds(hosts[2],u,password,cmd)
 	#删除测试库
 	def __drop_dbs(self,user,hosts):
-		user=user['user']
+		u=user['user']
 		password=user['password']
 		for i,ip in enumerate(hosts):
 			db_indexes=range(i*25,(i+1)*25)
 			for index in db_indexes:
 				cmd = 'drop database dbs'+str(index)
-				self.__exec_db_cmds(ip,user,password,cmd)
+				self.__exec_db_cmds(ip,u,password,cmd)
 		cmd = 'drop database nuc_pub;'
-		self.__exec_db_cmds(hosts[0],user,password,cmd)
+		self.__exec_db_cmds(hosts[0],u,password,cmd)
 		cmd = 'drop database nuc_stat;'
-		self.__exec_db_cmds(hosts[1],user,password,cmd)
+		self.__exec_db_cmds(hosts[1],u,password,cmd)
 		cmd = 'drop database nuc_indivuser;'
-		self.__exec_db_cmds(hosts[2],user,password,cmd)
+		self.__exec_db_cmds(hosts[2],u,password,cmd)
 	def generate(self,set_env):
 		if set_env == 'test':
 			self.__generate_db(self.test_user_and_password,self.test_servers)

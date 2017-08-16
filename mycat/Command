@@ -1,8 +1,10 @@
 Command
 
 1.查询强制走主，从
-/*!mycat:db_type=slave*/ select * from travelrecord
- /*#mycat:db_type=slave*/ select * from travelrecord 
+/*!mycat:db_type=slave*/ select * from ec_indivuser
+ /*#mycat:db_type=master*/ select * from travelrecord 
 
  强制走写： 
 /*#mycat:db_type=master*/ select * from travelrecord /*!mycat:db_type=master*/ select * from travelrecord
+
+/*#mycat:db_type=master*/ select count(1) from ec_indivuser

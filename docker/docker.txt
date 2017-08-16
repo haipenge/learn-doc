@@ -103,7 +103,7 @@ exam: docker run -t -i -d -p 9080:80 -p 9022:22 centos-env:1.0.5 /bin/bash
         # docker save -o ~/container-backup.tar container-backup
   迁移:docker load -i ~/container-backup.tar
 
-  恢复:docker run -d -p 80:80 container-backup
+  恢复:docker run -d -p 80:80 container-backup 
 
 
 
