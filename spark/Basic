@@ -1,0 +1,31 @@
+==basic
+
+1.start a cluster
+  1).make ssh without password
+     on master: 
+     $ssh-keygen
+     $ssh-copy-id user@host
+  2).slave
+     vi  conf/slave
+     on host per line
+2.运行一个java或scala simple program:
+   ./bin/run-example <class> [params]
+
+  ./bin/spark-submit \
+  --class "SimpleApp" \
+  --master local[4] \
+  target/simple-project-1.0.jar
+
+  运行 python
+  ./bin/spark-submit --master local[4] python.py
+
+3.Run spark with master url
+  ./bin/spark-shell --master local[2]
+  local is the master or a host
+  [2] is  to run locally with N threads
+
+  集群运行[ Spark standalone cluster ]：
+  ./bin/spark-shell --spark://HOST:PORT
+
+  exam: ./bin/spark-shell --spark://HOST1:PORT1,HOST2:PORT2
+

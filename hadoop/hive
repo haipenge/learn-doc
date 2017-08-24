@@ -68,6 +68,9 @@ hive --service metastore &
 
  permission java.util.PropertyPermission "*", "read,write";
 
+ 7.启动 hiveserver for jdbc
+ hive --service hiveserver2 &
+
 
 二.Hive With HBase
 
@@ -103,4 +106,63 @@ other map<string,string>)
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'   
 WITH SERDEPROPERTIES ("hbase.columns.mapping" =":key,basic:,other:")    
 TBLPROPERTIES  ("hbase.table.name" = "example"); 
+
+
+4).制表符进行分割 
+CREATE TABLE t2(id int, name string) ROW FORMAT DELIMITED FIELDS TERMINATED BY ‘\t’;
+
+5).分区表命令 
+CREATE TABLE t3(id int) PARTITIONED BY (day int); 
+LOAD DATA LOCAL INPATH ‘/root/id’ INTO TABLE t1 PARTITION (day=22);
+
+6).桶表命令 
+create table t4(id int) clustered by(id) into 4 buckets; 
+set hive.enforce.bucketing = true; 
+使用桶加载数据 不能使用load data方式加载数据 
+insert into table t4 select id from t3;
+
+exam:
+ create table wyp
+    > (id int, name string,
+    > age int, tel string)
+    > ROW FORMAT DELIMITED
+    > FIELDS TERMINATED BY '\t'
+    > STORED AS TEXTFILE;
+
+注：一般不使用textfile,
+textfile、sequencefile、rcfile等。用户也可以通过实现接口来自定义输入输的文件格式。
+在实际应用中，textfile由于无压缩，磁盘及解析的开销都很大，一般很少使用。Sequencefile以键值对的形式存储的二进制的格式，其支持针对记录级别和块级别的压缩。rcfile是一种行列结合的存储方式（text file和sequencefile都是行表[row table]），其保证同一条记录在同一个hdfs块中，块以列式存储
+
+导入数据：
+1).从文件导入数据
+  load data local inpath 'wyp.txt' into table wyp;
+2).从HDFS上导入数据
+  load data inpath '/home/wyp/add.txt' into table wyp;
+3).将其它表的查询结果插入新表中
+  insert into table test
+    > partition (age='25')
+    > select id, name, tel
+    > from wyp;
+4).多表插入
+  hive> from wyp
+    > insert into table test
+    > partition(age)
+    > select id, name, tel, age
+    > insert into table test3
+    > select id, name
+    > where age>25;
+5).创建表的同时，插入数据
+   hive> create table test4
+    > as
+    > select id, name, tel
+    > from wyp;
+提高性能：
+#将小文件合并为大文件 
+setmapred.max.split.size=256000000  #每个Map最大输入大小（单位：字节）
+set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat  #执行Map前进行小文件合并
+
+set hive.merge.mapfiles= true                 #在Map-only的任务结束时合并小文件  
+sethive.merge.mapredfiles= true               #在Map-Reduce的任务结束时合并小文件  
+set hive.merge.size.per.task= 256*1000*1000    #合并文件的大小  
+set hive.merge.smallfiles.avgsize=16000000     #当输出文件的平均大小小于该值时，启动一个独立的map-reduce任务进行文件merge 
 

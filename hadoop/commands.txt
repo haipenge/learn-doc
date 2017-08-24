@@ -10,3 +10,6 @@ commands.txt
 
 1.exist safe mode
 bin/hadoop dfsadmin -safemode leave
+
+2.report
+bin/hadoop dfsadmin -report

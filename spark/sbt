@@ -1,0 +1,9 @@
+1.使用sbt eclipse plugin
+全局plugin
+cd ~/.sbt/0.13/
+mkdir plugins
+vi build.sbt
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.1")
+
+2.使用 repositories
+将repositories copy -> ~/.sbt/
