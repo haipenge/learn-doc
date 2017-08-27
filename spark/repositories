@@ -6,3 +6,14 @@ typesafe: http://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[modul
 sonatype-oss-releases
 maven-central
 sonatype-oss-snapshots
+
+
+
+[repositories]
+local
+Local-Maven-Repository: /Users/apple/.m2/repository, [organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]
+aliyun: http://maven.aliyun.com/nexus/content/groups/public
+typesafe: http://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext], bootOnly
+sonatype-oss-releases
+maven-central
+sonatype-oss-snapshots

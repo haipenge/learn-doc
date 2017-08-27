@@ -37,6 +37,12 @@
 
 命令统一格式： curl -<REST Verb> <Node>:<Port>/<Index>/<Type><ID>
 
+13.启动sense
+  1).安装：
+     ./bin/kibana plugin --install elastic/sense
+  2).启动：
+     ./bin/kibana
+
 
 二.关于集群名称的修改
  多台机器
@@ -63,3 +69,4 @@ network.host
 
 2.设置堆的大小
   export ES_HEAP_SIZE=10g
+
