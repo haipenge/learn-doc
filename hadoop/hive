@@ -92,11 +92,47 @@ WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,cf1:val")
 TBLPROPERTIES ("hbase.table.name" = "xyz"); 
 
 2).创建带分区的表
+配置修改：创建动态分区，需设置  hive.exec.dynamic.partition:true
+Exam:
+  hive> set hive.exec.dynamic.partition;
+  hive.exec.dynamic.partition=false
+  hive> set hive.exec.dynamic.partition=true;
+  hive> set hive.exec.dynamic.partition;
+  hive.exec.dynamic.partition=true
+
 CREATE TABLE hbase_hive_2(key int, value string)    
 partitioned by (day string)   
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'   
 WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,cf1:val")   
 TBLPROPERTIES ("hbase.table.name" = "xyz2");
+
+在已存在的表上创建分区：
+添加分区表语法（表已创建，在此基础上添加分区）：ALTER TABLE table_name ADD
+partition_spec [ LOCATION 'location1' ]
+partition_spec [ LOCATION 'location2' ] ...
+
+ALTER TABLE day_table ADD
+PARTITION (dt='2008-08-08', hour='08')
+location '/path/pv1.txt'
+
+ALTER TABLE table_name ADD PARTITION (partCol = 'value1') location 'loc1'; //示例
+ALTER TABLE table_name ADD IF NOT EXISTS PARTITION (dt='20130101') LOCATION '/user/hadoop/warehouse/table_name/dt=20130101'; //一次添加一个分区
+
+ALTER TABLE page_view ADD PARTITION (dt='2008-08-08', country='us') location '/path/to/us/part080808' PARTITION (dt='2008-08-09', country='us') location '/path/to/us/part080809';  //一次添加多个分区
+
+删除分区：
+ALTER TABLE table_name DROP
+partition_spec, partition_spec,...
+用户可以用 ALTER TABLE DROP PARTITION 来删除分区。分区的元数据和数据将被一并删除。例：
+ALTER TABLE day_hour_table DROP PARTITION (dt='2008-08-08', hour='09');
+
+基于分区的查询
+SELECT day_table.* FROM day_table WHERE day_table.dt>= '2008-08-08';
+
+查看分区语句：
+hive> show partitions day_hour_table; 
+OK dt=2008-08-08/hour=08 dt=2008-08-08/hour=09 dt=2008-08-09/hour=09
+
 
 3).创建关联表：
 create external table example 
@@ -156,6 +192,7 @@ textfile、sequencefile、rcfile等。用户也可以通过实现接口来自定
     > as
     > select id, name, tel
     > from wyp;
+
 提高性能：
 #将小文件合并为大文件 
 setmapred.max.split.size=256000000  #每个Map最大输入大小（单位：字节）

@@ -1,0 +1,2 @@
+SELECT count(DISTINCT delivery['exp_org_code'],delivery['user_id'],delivery['org_code'],delivery['social_code'],delivery['TaxRegNo']),delivery['exp_org_code'] FROM express_delivery_status
+WHERE delivery['IsReported'] IS NOT NULL AND delivery['user_type'] = '1' AND delivery['IsPublic'] = 'normal' and delivery['check_date'] BETWEEN '2017-01-01 00:00:01' and '2017-12-30 23:59:59'  group by delivery['exp_org_code'];
