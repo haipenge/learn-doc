@@ -13,3 +13,6 @@ bin/hadoop dfsadmin -safemode leave
 
 2.report
 bin/hadoop dfsadmin -report
+
+3.checknative
+ hadoop checknative

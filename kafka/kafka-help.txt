@@ -10,12 +10,42 @@
      bin/kafka-server-start.sh -daemon config/server.properties
   3).Create Topic
      bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic default-msg
+
+     bin/kafka-topics.sh --create --zookeeper 10.1.4.236:2181,10.1.4.237:2181,10.1.4.240:2181 --replication-factor 1 --partitions 1 --topic default-msg
+
   4).List Topic
-     bin/kafka-topics.sh --list --zookeeper localhost:2181
+     bin/kafka-topics.sh --list --zookeeper  10.1.4.236:2181,10.1.4.237:2181,10.1.4.240:2181 
   5).Send Message
      bin/kafka-console-producer.sh --broker-list localhost:9092 --topic default-msg
+
+     bin/kafka-console-producer.sh --broker-list 10.1.4.236:9092,10.1.4.237:9092,10.1.4.240:9092 --topic default-msg
   6).Receive Msg
-     bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic default-msg --from-beginning
+     bin/kafka-console-consumer.sh --bootstrap-server localhost:9092  --zookeeper localhost:2181 --topic default-msg --from-beginning
+
+
+  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092  --zookeeper 10.1.4.236:2181,10.1.4.237:2181,10.1.4.240:2181 --topic spark-msg --from-beginning
+
+  7).删除Topic
+    ./bin/kafka-topics.sb  --delete --zookeeper 【zookeeper server】  --topic 【topic name】
+    ./bin/kafka-topics.sb  --delete --zookeeper 10.1.4.236:2181,10.1.4.237:2181,10.1.4.240:2181  --topic default-msg
+
+    此时你若想真正删除它，可以如下操作：
+     （1）登录zookeeper客户端：命令：./bin/zookeeper-client
+     （2）找到topic所在的目录：ls /brokers/topics
+     （3）找到要删除的topic，执行命令：rmr /brokers/topics/【topic name】即可，此时topic被彻底删除
+
+     彻底删除topic：
+      1、删除kafka存储目录（server.properties文件log.dirs配置，默认为"/tmp/kafka-logs"）相关topic目录
+      2、如果配置了delete.topic.enable=true直接通过命令删除，如果命令删除不掉，直接通过zookeeper-client 删除掉br
+
+  8).为topic增加副本  
+   ./kafka-reassign-partitions.sh -zookeeper 127.0.0.1:2181 -reassignment-json-file json/partitions-to-move.json -execute  
+  
+  9).为topic增加partition  
+./bin/kafka-topics.sh –zookeeper 127.0.0.1:2181 –alter –partitions 20 –topic testKJ1 
+
+  10).查看consumer组内消费的offset  
+   ./kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper localhost:2181 --group test --topic testKJ1
 
 4.配置
 
