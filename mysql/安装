@@ -5,3 +5,15 @@ yum install mysql-devel
 yum install mysql-embedded
 yum install mysql-embedded-devel
 yum install mysql-server
+
+
+启动:
+centos7:
+   systemctl start mysqld.service
+   或:
+   /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid --user=root
+
+
+问题解决:
+cd /var/lib/mysql
+ln -sf /data/mysql/mysql.sock mysql.sock

@@ -1,0 +1,6 @@
+1.查看最近启动的docker实例
+docker ps -l 
+2.查看所有docker实例
+docker ps -a
+3.进入某一docker:
+docker exec -it <container_id> /bin/bash

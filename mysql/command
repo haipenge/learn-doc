@@ -70,6 +70,9 @@ mysqldump -uroot -p  -c --skip-add-locks nuc ec_indivuser  > /opt/data/bak/ec_in
 
 mysqldump -uroot -proot  -c --skip-add-locks --skip-add-drop-table dbs584 useractive_count_province --where=" time='2017-08-07'" > /opt/data/bak/20170806/807/useractive_count_province_mycat_to_mysql_20170807.sql
 
+导出并压缩：
+mysqldump -uprnp -pprnp -c --skip-add-locks  nuc_stat |gzip >/home/prnp/back/nuc_stat/nuc_stat_bak_2017-09-26.gz
+
 
 导出某个库的表到本地的目录(例如mysql库的user表)
 mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --tables mysql user> db.table.sql
