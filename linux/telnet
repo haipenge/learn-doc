@@ -12,3 +12,6 @@ disable :yes -> no
 service xinted restart
 
 chkconfig  telnet on 
+
+
+telnet ip port
