@@ -1,0 +1,14 @@
+telnet:
+
+yum instlal xinted
+yum install telnet-server
+yum install telnet
+
+
+vi  /etc/xinted/telnet
+
+disable :yes -> no
+
+service xinted restart
+
+chkconfig  telnet on 

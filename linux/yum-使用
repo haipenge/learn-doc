@@ -14,4 +14,7 @@ yum list | grep rubygems
 
 
 在当前目录下载
-yumdownloader ruby
+yumdownloader ruby 
+
+下载所有依赖包:
+yumdownloader --resolve --destdir /tmp tenlent-server
