@@ -1,0 +1,14 @@
+ulimit 配置
+
+ 1. open file number
+   $vi /etc/ssh/sshd_configUsePrivilegeSeparation no
+   $service sshd restart
+ 2 $ vi /etc/pam.d/loginsession   required    pam_limits.so3 
+      $vi /etc/pam.d/common-sessionsession   required    pam_limits.so4
+ 3.vi/etc/sysctl.conf
+      fs.file-max= 6553560
+
+
+ 其它配置:
+ 1.vi /etc/security/limitd.conf
+ 

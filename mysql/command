@@ -168,3 +168,10 @@ mysql> purge {master|binary} logs to ‘log_name’;
 mysql> purge {master|binary} logs before ‘date’;
 #使用bin-log恢复数据
 mysqlbinlog xxx-bin.000001|mysql -u root –p password dataname
+
+
+修改字段长度:
+alter table address modify column city char(30);
+
+alter table express_delivery_status modify column InternalsName varchar(120);
+alter table express_delivery_status_repeat modify column InternalsName varchar(120); 

@@ -1,0 +1,33 @@
+启动与停止MySQL
+
+
+1.特殊情况 
+157 -Docker
+/usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid --user=root
+
+2.常规
+systemctl stop mysqld.service  
+systemctl start mysqld.service  
+service mysqld start
+service mysqld stop
+
+3.使用MySQL
+mysqladmin -u user -ppassword shut down
+
+4.查看服务状态
+  systemctl status mysqld.service
+
+
+235:
+
+systemctl stop mysqld.service  
+systemctl start mysqld.service  
+>login mysql 
+show slave status\G;
+
+232:
+show slave status\G;
+
+
+
+

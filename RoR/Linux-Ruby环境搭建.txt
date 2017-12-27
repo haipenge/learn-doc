@@ -3,7 +3,10 @@
   yum install ruby-devel
 
   gem sources --remove https://rubygems.org/
-  gem sources -a https://ruby.taobao.org/
+  --gem sources -a https://ruby.taobao.org/
+
+  gem sources -a http://gems.ruby-china.org/
+
   gem sources -l
   
 3.gem install sqlite3

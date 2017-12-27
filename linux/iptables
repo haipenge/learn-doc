@@ -1,0 +1,19 @@
+Linux防火墙(iptables)的开启与关闭
+Linux中的防火墙主要是对iptables的设置和管理.
+1. Linux防火墙(Iptables)重启系统生效
+开启： chkconfig iptables on  
+ 
+关闭： chkconfig iptables off  
+ 
+2.Linux防火墙(Iptables) 即时生效，重启后失效
+开启： service iptables start  
+ 
+关闭： service iptables stop  
+ 
+需要说明的是对于Linux下的其它服务都可以用以上命令执行开启和关闭操作。
+在开启了Linux防火墙(Iptables)时，做如下设置，开启25和110端口，
+修改/etc/sysconfig/iptables 文件，添加以下内容：
+-A RH-Firewall-1-INPUT -m state --state NEW -p tcp -m tcp --dport 25 --syn -j ACCEPT  
+ 
+-A RH-Firewall-1-INPUT -m state --state NEW -p tcp -m tcp --dport 110 --syn -j ACCEPT  
+ 

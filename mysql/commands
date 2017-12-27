@@ -1,0 +1,12 @@
+#innodb_io_capacity=400
+注释掉
+再添加1行：innodb_doublewrite=OFF
+systemctl stop mysqld.service  
+systemctl start mysqld.service  
+
+show variables like '%capacity%';
+show variables like '%binlog%';
+show variables like '%trx%';
+
+sar -u 2 4
+sar -d 2 4
