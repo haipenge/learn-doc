@@ -29,8 +29,8 @@ NGINX_VERSION=1.13.8
 cd $ROOT/pcre
 wget https://ftp.pcre.org/pub/pcre/pcre-$PCRE_VERISON.tar.gz
 #wget https://ftp.pcre.org/pub/pcre/pcre-$PCRE_VERSION.tar.gz .
-tar -zxvf pcre-$PCRE_VERSION.tar.gz
-cd pcre-$PCRE_VERSION
+tar -zxvf pcre-$PCRE_VERISON.tar.gz
+cd pcre-$PCRE_VERISON
 ./configure
 make
 make install
@@ -60,7 +60,7 @@ cd nginx-$NGINX_VERSION
 --conf-path=$ROOT/nginx/nginx/conf/nginx.conf \
 --pid-path=$ROOT/nginx/nginx/nginx.pid \
 --with-http_ssl_module \
---with-pcre=$ROOT/pcre/pcre-$PCRE_VERSION \
+--with-pcre=$ROOT/pcre/pcre-$PCRE_VERISON \
 --with-zlib=$ROOT/zlib/zlib-$ZLIB_VERSION \
 --with-openssl=$ROOT/openssl/openssl-$OPEN_SSL_VERSION
 make
