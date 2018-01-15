@@ -20,10 +20,10 @@ yum -y install wget
 yum -y update
 
 ######Version Config################
-PCRE_VERISON=8.37
-ZLIB_VERSION=1.2.8
-OPEN_SSL_VERSION=0.9.8zh
-NGINX_VERSION=1.9.9
+PCRE_VERISON=8.41
+ZLIB_VERSION=1.2.11
+OPEN_SSL_VERSION=1.0.2n
+NGINX_VERSION=1.13.8
 
 #Install pcre
 cd $ROOT/pcre
