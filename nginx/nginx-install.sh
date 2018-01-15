@@ -27,7 +27,7 @@ NGINX_VERSION=1.13.8
 
 #Install pcre
 cd $ROOT/pcre
-wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz .
+wget https://ftp.pcre.org/pub/pcre/pcre-$PCRE_VERSION.tar.gz .
 tar -zxvf pcre-$PCRE_VERSION.tar.gz
 cd pcre-$PCRE_VERSION
 ./configure
