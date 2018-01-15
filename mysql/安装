@@ -17,3 +17,12 @@ centos7:
 问题解决:
 cd /var/lib/mysql
 ln -sf /data/mysql/mysql.sock mysql.sock
+
+
+安装:
+
+rpm -ivh  mysql-community-libs-5.7.19-1.el7.x86_64.rpm
+rpm -ivh mysql-community-libs-compat-5.7.19-1.el7.x86_64.rpm
+pm -ivh mysql-community-devel-5.7.19-1.el7.x86_64.rpm
+rpm -ivh mysql-community-client-5.7.19-1.el7.x86_64.rpm
+rpm -ivh  mysql-community-server-5.7.19-1.el7.x86_64.rpm
