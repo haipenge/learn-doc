@@ -104,3 +104,4 @@ iptables -X        清除预设表filter中使用者自定链中的规则
 http://docs.mongodb.org/manual/tutorial/configure-linux-iptables-firewall/
 
 
+ 

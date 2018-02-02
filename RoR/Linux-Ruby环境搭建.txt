@@ -5,9 +5,11 @@
   gem sources --remove https://rubygems.org/
   --gem sources -a https://ruby.taobao.org/
 
+  gem sources --remove https://rubygems.org/
   gem sources -a http://gems.ruby-china.org/
 
   gem sources -l
+
   
 3.gem install sqlite3
 4.gem install rails
@@ -16,3 +18,10 @@
  yum install ImageMagick
  yum install imagemagick 
  yum install sqlite-devel
+
+5.rvm 安装
+
+  查看ruby版本:
+  rvm list known
+
+  https://github.com/rvm/rvm/archive/1.29.3.tar.gz

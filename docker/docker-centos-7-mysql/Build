@@ -1,0 +1,23 @@
+1.安装
+  wget http://repo.mysql.com/mysql57-community-release-el7.rpm .
+  rpm -ivh mysql57-community-release-el7.rpm
+  yum update -y
+  yum install mysql-server
+
+2.目录结构
+  目录	           目录内容
+  /usr/bin	       客户端程序和脚本
+  /usr/sbin	       mysqld服务器
+  /var/lib/mysql   日志文件，数据库文件
+  /usr/share/mysql  错误消息和字符集文件
+  /etc/my.cnf	    配置文件
+
+3.启动docker
+  docker run --privileged -itd  -v /data/mysql-33306:/data  -v /etc/localtime:/etc/localtime:ro -p 33306:3306  centos-7-mysql /usr/sbin/init
+
+
+4.修改初始密码
+   查看初始密码:
+   cat /data/mysql/mysqld.log|grep 'password'   -> exam: y7sAajfyr5&j
+   mysqladmin -u root -p password 'root'
+   FLUSH PRIVILEGES;  

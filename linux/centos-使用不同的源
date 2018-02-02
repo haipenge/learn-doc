@@ -13,7 +13,10 @@ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-
 CentOS 6
 
 wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo
+
+echo `host mirrors.aliyun.com|cut -d' ' -f 4` mirrors.163.com >> /etc/hosts
 第三步：运行yum makecache生成缓存
+
 
 yum makecache
 

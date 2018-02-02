@@ -1,0 +1,35 @@
+构建:
+1.docker pull haipenge/centos-7
+  wget http://repo.mysql.com/mysql57-community-release-el7.rpm .
+  rpm -ivh mysql57-community-release-el7.rpm
+  yum update -y
+  yum install mysql-server
+
+目录	         目录内容
+/usr/bin	     客户端程序和脚本
+/usr/sbin	     mysqld服务器
+/var/lib/mysql	  日志文件，数据库文件
+/usr/share/mysql  错误消息和字符集文件
+/etc/my.cnf	      配置文件
+
+  初始化数据库:
+  cd /usr/sbin/
+  /usr/sbin/mysqld --initialize --user=root  --datadir=/data/mysql/data  --basedir=/data/mysql --explicit_defaults_for_timestamp
+  设置密码:
+   查看初始密码:
+   cat /data/mysql/mysqld.log|grep 'password'   exam: y7sAajfyr5&j
+   mysqladmin -u root -p password 'root'
+   FLUSH PRIVILEGES;
+   启动:
+   1).非docker环境
+   systemctl start mysqld.service
+   2).docker环境
+   /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid --user=root
+
+   docker run --privileged -itd  -v /opt/data/docker-mysql57-3306:/data -v /opt/data/soft:/app -v /etc/localtime:/etc/localtime:ro -p 3306:3306  centos-7-mysql-galera /usr/sbin/init
+
+  
+
+常见问题解决:
+cd /var/lib/mysql
+ln -sf /data/mysql/mysql.sock mysql.sock
