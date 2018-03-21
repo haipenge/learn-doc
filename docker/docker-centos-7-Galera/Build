@@ -19,17 +19,28 @@
    查看初始密码:
    cat /data/mysql/mysqld.log|grep 'password'   exam: y7sAajfyr5&j
    mysqladmin -u root -p password 'root'
+   GRANT ALL PRIVILEGES ON *.* TO 'pro'@'%' IDENTIFIED BY 'pro' WITH GRANT OPTION;
+   GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+   GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root' WITH GRANT OPTION;
    FLUSH PRIVILEGES;
    启动:
    1).非docker环境
    systemctl start mysqld.service
    2).docker环境
-   /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid --user=root
-
-   docker run --privileged -itd  -v /opt/data/docker-mysql57-3306:/data -v /opt/data/soft:/app -v /etc/localtime:/etc/localtime:ro -p 3306:3306  centos-7-mysql-galera /usr/sbin/init
-
   
 
+    1).启动第一个节点:
+     docker run --privileged -dit --net host -v /data/mysql-33306:/data  -v /etc/localtime:/etc/localtime:ro -p 33306:3307 -p 4444:4444 -p 4567:4567 -p 4568:4568 -p 4444:4444/udp -p 4567:4567/udp -p 4568:4568/udp  centos-7-mysql-galera /usr/sbin/init
+      /usr/sbin/mysqld --daemonize --pid-file=/data/mysql/mysqld.pid --explicit_defaults_for_timestamp --user=mysql --wsrep-new-cluster --wsrep-cluster-address=gcomm://
+    2).启动第二个节点:
+     docker run --privileged -dit --net host -v /data/mysql-33306:/data  -v /etc/localtime:/etc/localtime:ro -p 33306:3307 -p 4444:4444 -p 4567:4567 -p 4568:4568 -p 4444:4444/udp -p 4567:4567/udp -p 4568:4568/udp  centos-7-mysql-galera /usr/sbin/init
+     /usr/sbin/mysqld --daemonize --pid-file=/data/mysql/mysqld.pid --explicit_defaults_for_timestamp --user=mysql
+    3).启动第三个节点:
+     docker run --privileged -dit --net host -v /data/mysql-33306:/data  -v /etc/localtime:/etc/localtime:ro -p 33306:3307 -p 4444:4444 -p 4567:4567 -p 4568:4568 -p 4444:4444/udp -p 4567:4567/udp -p 4568:4568/udp  centos-7-mysql-galera /usr/sbin/init
+     /usr/sbin/mysqld --daemonize --pid-file=/data/mysql/mysqld.pid --explicit_defaults_for_timestamp --user=mysql
+    
+
+  
 常见问题解决:
 cd /var/lib/mysql
 ln -sf /data/mysql/mysql.sock mysql.sock

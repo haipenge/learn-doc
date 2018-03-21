@@ -43,7 +43,7 @@ Cluster
   集群测试:
   redis-cli -p 7000 -c
 
- redis cluster命令
+ 11.redis cluster命令
 集群(cluster)  
 cluster info       打印集群的信息
 cluster nodes   列出集群当前已知的所有节点(node)，以及这些节点的相关信息   

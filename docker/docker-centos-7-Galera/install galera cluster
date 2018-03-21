@@ -1,0 +1,81 @@
+install galera cluster
+1.配置源
+Centos7 MySQL 5.7
+[galera]
+name = Galera
+baseurl = http://releases.galeracluster.com/galera-3/centos/7/x86_64
+gpgkey = http://releases.galeracluster.com/GPG-KEY-galeracluster.com
+gpgcheck = 1
+
+[MySQL-wsrep]
+name = MySQL-wsrep
+baseurl =  http://releases.galeracluster.com/mysql-wsrep-5.7/centos/7/x86_64
+gpgkey = http://releases.galeracluster.com/GPG-KEY-galeracluster.com
+gpgcheck = 1
+
+Centos6 MySQL 5.6
+
+[galera]
+name = Galera
+baseurl = http://releases.galeracluster.com/galera-3/centos/7/x86_64
+gpgkey = http://releases.galeracluster.com/GPG-KEY-galeracluster.com
+gpgcheck = 1
+
+[MySQL-wsrep]
+name = MySQL-wsrep
+baseurl =  http://releases.galeracluster.com/mysql-wsrep-5.6/centos/6/x86_64
+gpgkey = http://releases.galeracluster.com/GPG-KEY-galeracluster.com
+gpgcheck = 1
+
+2.安装
+yum install -y galera-3 mysql-wsrep-5.7 which lsof socat rsync
+yum install -y galera-3 mysql-wsrep-5.6 which lsof socat rsync
+
+
+3.初始化
+初始化数据库
+/usr/sbin/mysqld --initialize --user=root  --datadir=/data/mysql   --explicit_defaults_for_timestamp
+
+
+3.配置
+启动firewalld
+/usr/sbin/firewalld 
+启动MySQL:
+/usr/sbin/mysqld --daemonize --pid-file=/data/mysql/mysqld.pid --user=root
+
+wsrep_provider=/usr/lib64/galera-3/libgalera_smm.so
+wsrep_provider_options="gcache.size=300M; gcache.page_size=300M"
+wsrep_cluster_name="ca-mysql-galera-cluster"
+wsrep_cluster_address="gcomm://10.12.12.140:4567,10.12.12.141:4567,10.12.12.142:4567"
+wsrep_sst_method=rsync
+server_id=1
+wsrep_node_address="10.12.12.142"
+wsrep_node_name="ca-001"
+#指定wsrep启动端口号
+wsrep_node_incoming_address='10.12.12.142:3306'
+#一个逗号分割的节点串作为状态转移源，比如wsrep_sst_donor=node5,node3,如果node5可用，用node5,不可
+#用node3,如果node3不可用，最后的逗号表明让提供商自己选择一个最优的。
+wsrep_sst_donor='ca-001,ca-002,ca-003,'
+#线程数量。参考设置：1.CPU内核数*2以上;2.其它写节点连接总数的1/4.
+wsrep_slave_threads=2
+#xtrabackup使用的用户名密码(最好能和mysql数据库的用户名密码一致)
+wsrep_sst_auth=pro:pro
+
+
+----------------无中文版----------------
+wsrep_provider=/usr/lib64/galera-3/libgalera_smm.so
+wsrep_provider_options="gcache.size=300M; gcache.page_size=300M"
+wsrep_cluster_name="ca-mysql-galera-cluster"
+wsrep_cluster_address="gcomm://10.12.12.140,10.12.12.141,10.12.12.142"
+wsrep_sst_method=rsync
+server_id=1
+wsrep_node_address="10.12.12.142"
+wsrep_node_name="ca-001"
+#wsrep_node_incoming_address='10.12.12.142:33306'
+#wsrep_sst_donor='ca-001,ca-002,ca-003,'
+#wsrep_slave_threads=2
+#wsrep_sst_auth=pro:pro
+
+4.注意事项
+
+如果节点断开，启动之前先执行：mysqld_safe --wsrep-recover
