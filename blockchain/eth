@@ -1,0 +1,15 @@
+eth
+[安装]
+1.安装以太坊和 go-ethereum
+apt-get install software-properties-common
+add-apt-repository -y ppa:ethereum/ethereum
+apt-get update
+apt-get install ethereum
+
+2.执行 geth account new 创建用户
+geth account new
+
+<以下两次输入 密码>
+
+3.执行geth ,同步所有区块
+ $geth
