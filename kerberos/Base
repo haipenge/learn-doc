@@ -1,0 +1,370 @@
+1.安装:
+ KDC Server:
+    yum install krb5-server krb5-libs krb5-auth-dialog krb5-workstation -y 
+ 其它机器:
+     yum install krb5-devel krb5-workstation -y
+
+  JCE安装:
+  下载:
+     http://www.oracle.com/technetwork/java/embedded/embedded-se/downloads/jce-7-download-432124.html 
+  下载完后得到的压缩包解压，将其中的local_policy.jar以及US_export_policy.jar复制到JAVA_HOME/jre/lib/security下。
+
+2.配置:
+vi /etc/krb5.conf  并分发到其它机器相同目录
+
+[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ default_realm = HADOOP.COM
+ dns_lookup_realm = false
+ dns_lookup_kdc = false
+ ticket_lifetime = 365d
+ renew_lifetime = 365d
+ forwardable = true
+
+[realms]
+ HADOOP.COM = {
+  kdc = hd01.aspire.com.cn
+  admin_server = hd01.aspire.com.cn
+ }
+
+ /var/kerberos/krb5kdc/kdf.conf
+
+ [kdcdefaults]
+ kdc_ports = 88
+ kdc_tcp_ports = 88
+
+[realms]
+ HADOOP.COM = {
+  #master_key_type = aes256-cts
+  acl_file = /var/kerberos/krb5kdc/kadm5.acl
+  dict_file = /usr/share/dict/words
+  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab
+  supported_enctypes = aes256-cts:normal aes128-cts:normal des3-hmac-sha1:normal arcfour-hmac:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal
+  max_renewlife = 365d
+  max_life = 365d
+ }
+ 
+ 注:配置完成
+
+1).创建数据库:
+   kdb5_util create -r HADOOP.COM -s
+2).启动KDC Server
+   service krb5kdc start 
+   service kadmin start
+3).创建principals
+   在KDC Servier 执行:
+   kadmin.local
+   
+   然后执行以下脚本:
+
+addprinc -randkey hadoop/hd01.aspire.com.cn@HADOOP.COM
+addprinc -randkey hadoop/hd02.aspire.com.cn@HADOOP.COM
+addprinc -randkey hadoop/hd03.aspire.com.cn@HADOOP.COM
+addprinc -randkey hadoop/hd04.aspire.com.cn@HADOOP.COM
+addprinc -randkey HTTP/hd01.aspire.com.cn@HADOOP.COM
+addprinc -randkey HTTP/hd02.aspire.com.cn@HADOOP.COM
+addprinc -randkey HTTP/hd03.aspire.com.cn@HADOOP.COM
+addprinc -randkey HTTP/hd04.aspire.com.cn@HADOOP.COM
+
+  4).创建keytab文件
+  在KDC Server 执行:
+
+kadmin.local -q "xst  -k hadoop.keytab  hadoop/hd01.aspire.com.cn@HADOOP.COM"
+kadmin.local -q "xst  -k hadoop.keytab  hadoop/hd02.aspire.com.cn@HADOOP.COM"
+kadmin.local -q "xst  -k hadoop.keytab  hadoop/hd03.aspire.com.cn@HADOOP.COM"
+kadmin.local -q "xst  -k hadoop.keytab  hadoop/hd04.aspire.com.cn@HADOOP.COM"
+kadmin.local -q "xst  -k HTTP.keytab  HTTP/hd01.aspire.com.cn@HADOOP.COM"
+kadmin.local -q "xst  -k HTTP.keytab  HTTP/hd02.aspire.com.cn@HADOOP.COM"
+kadmin.local -q "xst  -k HTTP.keytab  HTTP/hd03.aspire.com.cn@HADOOP.COM"
+kadmin.local -q "xst  -k HTTP.keytab  HTTP/hd04.aspire.com.cn@HADOOP.COM"
+
+这样会在/var/kerberos/krb5kdc目录下生成hadoop.keytab和HTTP.keytab文件。 
+继续rm1命令行键入 ktutil 
+继而键入 rkt hadoop.keytab 回车 
+再次键入 rkt HTTP.keytab 回车 
+最后键入 wkt hdfs.keytab 回车 
+这样即生成文件hdfs.keytab，用klist命令显示列表(部分内容) 
+exam: klist -k -e hdfs.keytab
+
+5).部署keytab文件 
+将rm1上生成的hdfs.keytab文件分发到各个节点的/etc/hadoop 下。安全起见，可以将该文件权限设置为400
+
+scp /tmp/hdfs.keytab hadoop001@10.12.12.141:/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/
+scp /tmp/hdfs.keytab hadoop001@10.12.12.142:/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/
+scp /tmp/hdfs.keytab hadoop001@10.12.12.143:/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/
+
+
+For hadoop:
+
+1).core-site.xml
+增加:
+<property>
+      <name>hadoop.security.authentication</name>
+      <value>kerberos</value>
+</property>
+<property>
+      <name>hadoop.security.authorization</name>
+      <value>true</value>
+</property>
+
+2).hdfs-site.xml
+增加:
+<property>
+  <name>dfs.block.access.token.enable</name>
+  <value>true</value>
+</property>
+<property>
+  <name>dfs.https.enable</name>
+  <value>true</value>
+</property>
+<property>
+  <name>dfs.https.policy</name>
+  <value>HTTPS_ONLY</value>
+</property>
+<!--
+<property>
+  <name>dfs.namenode.https-address.pin-cluster1.testnn1</name>
+  <value>test-nn1:50470</value>
+</property>
+<property>
+  <name>dfs.namenode.https-address.pin-cluster1.testnn2</name>
+    <value>test-nn2:50470</value>
+    </property>
+<property>
+-->
+  <name>dfs.https.port</name>
+    <value>50470</value>
+    </property>
+<property>
+  <name>dfs.namenode.keytab.file</name>
+  <value>/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab</value>
+</property>
+<property>
+  <name>dfs.namenode.kerberos.principal</name>
+  <value>hadoop/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+  <name>dfs.namenode.kerberos.internal.spnego.principal</name>
+  <value>HTTP/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<!--
+<property>
+  <name>dfs.datanode.data.dir.perm</name>
+  <value>700</value>
+</property>
+<property>
+  <name>dfs.datanode.address</name>
+  <value>0.0.0.0:1004</value>
+</property>
+<property>
+  <name>dfs.datanode.http.address</name>
+  <value>0.0.0.0:1006</value>
+</property>
+-->
+<property>
+  <name>dfs.datanode.keytab.file</name>
+  <value>/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab</value>
+</property>
+<property>
+  <name>dfs.datanode.kerberos.principal</name>
+  <value>hadoop/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+<property>
+  <name>dfs.journalnode.keytab.file</name>
+  <value>/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab</value>
+</property>
+<property>
+  <name>dfs.journalnode.kerberos.principal</name>
+  <value>hadoop/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+  <name>dfs.journalnode.kerberos.internal.spnego.principal</name>
+  <value>HTTP/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+  <name>dfs.web.authentication.kerberos.principal</name>
+  <value>HTTP/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+  <name>dfs.web.authentication.kerberos.keytab</name>
+  <value>/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab</value>
+</property>
+
+
+3).yarn-site.xml 加入
+
+<property>
+  <name>yarn.resourcemanager.keytab</name>
+  <value>/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab</value> 
+</property>
+<property>
+  <name>yarn.resourcemanager.principal</name>
+  <value>hadoop/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+  <name>yarn.nodemanager.keytab</name>
+  <value>/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab</value>
+</property>
+<property>
+  <name>yarn.nodemanager.principal</name>
+  <value>hadoop/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+  <name>yarn.nodemanager.container-executor.class</name>
+  <value>org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor</value>
+</property>
+<property>
+  <name>yarn.nodemanager.linux-container-executor.group</name>
+  <value>hadoop001</value>
+</property>
+<property>
+  <name>yarn.https.policy</name>
+  <value>HTTPS_ONLY</value>
+</property>
+
+4).map-size.xml 加入:
+
+<property>
+  <name>mapreduce.jobhistory.keytab</name>
+  <value>/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab</value>      
+</property>
+<property>
+  <name>mapreduce.jobhistory.principal</name>
+  <value>hadoop/hd01.aspire.com.cn@HADOOP.COM</value>
+</property>
+<property>
+  <name>mapreduce.jobhistory.http.policy</name>
+  <value>HTTPS_ONLY</value>
+</property>
+
+5).zookeeper 加入(zoo.cfg):
+authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider 
+jaasLoginRenew=3600000 
+
+并在同级目录下创建文件:jaas.conf
+Server {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    keyTab="/home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab"
+    storeKey=true
+    useTicketCache=true
+    principal="hadoop/hd01.aspire.com.cn@HADOOP.COM";
+};
+
+再创建 java.env 文件,内容如下:
+export JVMFLAGS="-Djava.security.auth.login.config=/home/hadoop001/tools/zookeeper-3.4.11/conf/jaas.conf"
+
+6).hadoop-env.sh 中加入:
+export HADOOP_SECURE_DN_USER=hadoop
+export HADOOP_SECURE_DN_PID_DIR=${HADOOP_HOME}/sec_pids
+export HADOOP_SECURE_DN_LOG_DIR=/home/hadoop001/tools/hadoop-2.7.3/hadoop-sec-logs
+export JSVC_HOME=/usr/local/jsvc
+
+
+7).container-executor.cfg，加入
+
+##comma separated list of system users who CAN run applications
+allowed.system.users=hadoop001
+#default dir is :${HADOOP_TEMP}/nm-local-dir
+yarn.nodemanager.local-dirs=/home/hadoop001/data/hadoop/tmp/nm-local-dir
+yarn.nodemanager.linux-container-executor.group=hadoop001
+#Default:${yarn.log.dir}/userlogs
+yarn.nodemanager.log-dirs=/home/hadoop001/tools/hadoop-2.7.3/logs/userlogs
+#banned.users=hadoop
+min.user.id=1019
+
+yarn-nodemanager.local-dirs和yarn.nodemanager.log-dirs要和yarn-site.xml中配置一致。min.user.id也要注意，这里设定的是可以使用提交任务用户id的最小值，用户id就是 /etc/passwd中用户对应的id。默认是1000如果不配置的话，这样如果用户id小于1000，则提交任务报错。所以这里设定成了1.原本1000是为了防止其它的超级用户使用集群的。
+
+8).编译源码 
+因为container-executor（在 HADOOP_HOME/bin下）要求container-executor.cfg这个文件及其所有父目录都属于root用户，否则启动nodemanager会报错。配置文件container-executor.cfg默认的路径在HADOOP_HOME/etc/hadoop/container-executor.cfg。如果，按照默认的路径修改所有父目录都属于root，显然不可能。于是，把路径编译到/etc/container-executor.cfg中。
+
+下载hadoop-2,7,2-src源码包解压，进入src目录下，执行 
+mvn package -Pdist,native -DskipTests -Dtar -Dcontainer-executor.conf.dir=/etc 
+执行过程时间较长。(公司有专门的编译服务器使用) 
+完后，进入hadoop-2.7.2/src/hadoop-dist/target下，新编译完成的代码已经生成，当然，编译源码需要搭建相应的环境，这里不做介绍。 
+将新生成的container-executor替换所有节点原来的container-executor，并且所有节点上均要将HADOOP_HOME/etc/hadoop下的container-executor.cfg文件复制到/etc 下，且设置权限为root:root。在bin文件夹下执行
+
+ scp container-executor hadoop001@10.12.12.141:/home/hadoop001/tools/hadoop-2.7.3/bin/
+
+strings container-executor | grep etc
+
+如果结果是/etc而非../etc，则表示操作成功了。另外最重要的是将bin下的container-executor 
+文件权限设定为root:hadoop和4750，如果权限不是4750，则启动nodemanager时会报错，报错是不能提供合理的container-executor.cfg文件。
+
+4750 不行,需使用6050
+
+
+10、启动服务 
+a、zookeeper启动与正常一样启动 
+b、journalnode启动与正常一样启动 
+c、namenode启动与正常一样启动 
+d、zkfc启动与正常一样启动 
+e、nodemanager启动与正常一样启动 
+以上所有服务均用hadoop用户启动 
+f、datanode启动要用root用户启动，且需要安装jsvc
+
+./sbin/start-all.sh
+启动datanode.
+sudo -E ./sbin/hadoop-daemon.sh start datanode
+
+注:需将当前用户加入sudo用户组
+
+jsvc安装需要下载commons-daemon-1.0.15-src.tar.gz 
+解压后进入 commons-daemon-1.0.15-src/src/native/unix 
+按步执行： 
+sh support/buildconf.sh 
+./configure 这里要在/etc/profile中配置好JAVA_HOME。 
+make 
+3步过后即可。这时在当前目录有文件jsvc，将其路径配置到前文叙述过的hadoop-env.sh中即可，配置前可试一下是否有用。使用命令在当前目录执行./jsvc -help 
+最后以root用户启动datanode即可。 
+scp -r commons-daemon-1.1.0-src hadoop001@10.12.12.143:/home/hadoop001/tools/
+
+(之后发现，其实不必须使用root启动datanode，在hdfs-site.xml中添加
+
+<property> 
+<name>ignore.secure.ports.for.testing</name> 
+<value>true</value> 
+</property> 
+即可)
+
+11、检查 
+全部服务启动完毕后，namenode页面出现Security is on。 
+使用hadoop用户执行
+
+kinit -k -e /home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab hadoop/hd01.aspire.com.cn@HADOOP.COM
+kinit -k -e /home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab hadoop/hd02.aspire.com.cn@HADOOP.COM
+kinit -k -e /home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab hadoop/hd03.aspire.com.cn@HADOOP.COM
+kinit -k -e /home/hadoop001/tools/hadoop-2.7.3/etc/hadoop/hdfs.keytab hadoop/hd04.aspire.com.cn@HADOOP.COM
+
+
+5条指令在5台机器上分别执行。这样便会在/tmp下生成krb5cc_xxx文件，前文已经交代过用处。 
+这时再用hadoop用户在任意节点执行 hadoop fs -ls 即可成功，否则报错，错误为无法找到tgt。之前将ticket_lifetime改为10000也是因为这里，过了24小时的话，再执行hadoop fs 又会报错，因为默认ticket时间只有24小时，需要加长。
+
+这里ticket_lifetime和renew_lifetime查看和修改方式做一下介绍 
+这两个时间的确定是由 
+(1)Kerberos server上 /var/kerberos/krb5kdc/kdc.conf中的max_life和max_renewable_life 
+(2)建立Principal时自动内置了这两个时间，可用命令查看和修改 
+(3)/etc/krb5.conf中的ticket_lifetime和renew_lifetime 
+(4)kinit -l 命令后跟的时间参数 
+这4个中中最小的一个值决定. 
+使用kinit -l 命令后面加时间回车之后，提示需要输入密码，经测试，该密码并非添加principals时指定的密码，所以还未知如何修改。建议修改完配置文件中的ticket_lifetime后再添加principals，可保证时间修改。
+
+配置文件改动即可，该完后需要重启服务 
+service krb5kdc restart 
+service kadmin restart
+
+查看Principal相关信息使用命令 
+kadmin.local : getprinc {principal}
+
+修改命令 
+kadmin.local : modprinc -maxlife 10000days {principal} 
+kadmin.local : modprinc -maxrenewlife 10000days {principal}
+
+至此，hadoop层面集成kerberos完成，当然还远远不够，还需要后续跟进很多测试，得出结论是否可行。还有hbase、hive、hbase等服务也需要集成kerberos，任重而道远~~
+
+

@@ -16,3 +16,18 @@ bin/hadoop dfsadmin -report
 
 3.checknative
  hadoop checknative
+
+ 4.启动datanode
+ 1).独立 
+   hadoop-daemon.sh start datanode
+ 2).全部
+   hadoop-daemons.sh start datanode
+
+ 5.手动启动secondarynamenode
+ hadoop-daemon.sh start secondarynamenode
+
+ 6.启动resourceManager
+ hadoop-daemon.sh start ResourceManager
+
+ 7.设置系统时间一致,最好做ntp
+ date -s "20180329 13:55:00" &&hwclock --systohc

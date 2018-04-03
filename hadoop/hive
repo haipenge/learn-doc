@@ -7,7 +7,7 @@
 
 2.配置Hive
  $ $HADOOP_HOME/bin/hadoop fs -mkdir       /tmp
- $ $HADOOP_HOME/bin/hadoop fs -mkdir       /user/hive/warehouse
+ $ $HADOOP_HOME/bin/hadoop fs -mkdir -p       /user/hive/warehouse
  $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp
  $ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
 
@@ -25,7 +25,7 @@
     $HIVE_HOME/bin/schematool -dbType derby -initSchema
     $HIVE_HOME/bin/schematoll -dbType mysql -info
 
-    schematoll -dbType mysql -initSchema
+    schematool -dbType mysql -initSchema
 
     $HIVE_HOME/bin/schematool -dbType mysql -initSchema
 
